@@ -42,6 +42,7 @@ export default class RegisterScreen extends React.Component {
           {this.state.cardstate == 0 ? (<RegisterUsScreen />) : (<RegisterProfScreen />)}
 
         </View>
+       
 
       </View>
     );
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
 
     width: '100%',
-    height: '100%'
+    height: '110%'
   },
   buttonUs: {
     alignItems: "center",
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
 
   },
   tabsContainer: {
-    height: '70%',
+    height: '80%',
     width: '80%',
     alignSelf: 'center',
     backgroundColor: '#e1e9f5',

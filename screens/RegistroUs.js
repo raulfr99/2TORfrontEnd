@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     width:'100%',
     height:'100%',
-    marginTop:'10%'
+    
   },
   avatarCamara:{
     width:'25%',

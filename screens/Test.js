@@ -56,9 +56,11 @@ export default class Test extends React.Component {
         <Text style={styles.textButton}>Registrar</Text>
          </TouchableOpacity>
          </View>
-         <View style={styles.tabsContainer}>
-         {this.state.cardstate == 0 ? ( <LoginScreen/> ) : ( <RegisterScreen/> )}
-         </View>
+         
+         {this.state.cardstate == 0 ? ( <View style={styles.loginContainer}><LoginScreen/></View> ) 
+         : ( <View style={styles.registerContainer}><RegisterScreen/></View> )}
+         
+         
          
         
           </View>    
@@ -103,7 +105,27 @@ const styles = StyleSheet.create({
     
   },
   tabsContainer:{
-    height:'80%',
+    height:'90%',
+    width:'80%',
+    alignSelf:'center',
+    backgroundColor:'#e1e9f5',
+    borderRadius:30,
+    backgroundColor:'white',
+    
+
+  },
+  loginContainer:{
+    height:'70%',
+    width:'80%',
+    alignSelf:'center',
+    backgroundColor:'#e1e9f5',
+    borderRadius:30,
+    backgroundColor:'white',
+    
+
+  },
+  registerContainer:{
+    height:'90%',
     width:'80%',
     alignSelf:'center',
     backgroundColor:'#e1e9f5',
@@ -133,9 +155,6 @@ const styles = StyleSheet.create({
   imgBack:{
     resizeMode:'cover',
     flex:1,
-    
-
-    
   },
   recuperarText:{
     color:'white',

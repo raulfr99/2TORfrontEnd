@@ -101,6 +101,7 @@ export default class LoginScreen extends React.Component {
     const {showAlert,showAlertLog} = this.state;
     
     return (
+     
       <View style={styles.container}>
 
 
