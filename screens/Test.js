@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Text,TextInput,View, Image,ImageBackground, StyleSheet,TouchableOpacity,Alert } from 'react-native';
+import { Text,TextInput,View, Image,ImageBackground, StyleSheet,TouchableOpacity,Alert,TouchableHighlight } from 'react-native';
 import { Icon,Button,Card } from 'react-native-elements'
 import { Avatar, Accessory } from 'react-native-elements';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/Register';
 const imgbg = require('../assets/fondo2.jpg');
 import { AsyncStorage } from 'react-native';
+import  { useState } from "react";
 
 export default class Test extends React.Component {
   constructor(props){
@@ -28,11 +29,13 @@ export default class Test extends React.Component {
 
 
   render() {
-      
+    
+    
       if(this.state.loggedIn){
         this.props.navigation.navigate('Home')
       }
    
+      
 
     return (
       <ImageBackground  source={imgbg}style={styles.imgBack}>
@@ -65,7 +68,8 @@ export default class Test extends React.Component {
         
           </View>    
           
-          <Text style={styles.recuperarText}>Recuperar Password</Text>
+          
+          <Text style={styles.recuperarText}onPress={()=>alert('hola')}>Recuperar Password</Text>
          </ImageBackground>   
         
     );
@@ -162,5 +166,35 @@ const styles = StyleSheet.create({
     fontSize:20,
     alignSelf:'center',
     marginBottom:'10%'
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
   }
 })
