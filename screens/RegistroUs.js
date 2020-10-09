@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   containerSignIn:{
     height: 60,
     width:'30%',
-    marginTop:'10px',
+    marginTop:10,
     alignSelf:'center',
     
 
@@ -275,8 +275,8 @@ const styles = StyleSheet.create({
     backgroundColor:'#22d48a',
     borderRadius:5,
     alignItems:'center',
-    paddingTop:'20px',
-    paddingBottom:'20px',
+    paddingTop:20,
+    paddingBottom:20,
     width:'350%',
     alignSelf:'center',
     marginTop:'15%'
@@ -292,10 +292,14 @@ const styles = StyleSheet.create({
   picker:{
     backgroundColor:'transparent',
     flex:5,
-    color:'black',
+    borderColor: 'black',
+    borderBottomWidth:1,
+    borderRadius: 10,
+    alignSelf: 'center',
    
     color:'gray',
-    borderStyle:'none'
+    
+    
    
   }
 })

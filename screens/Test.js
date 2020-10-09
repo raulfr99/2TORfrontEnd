@@ -5,17 +5,17 @@ import { Avatar, Accessory } from 'react-native-elements';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/Register';
 const imgbg = require('../assets/fondo2.jpg');
-import { AsyncStorage } from 'react-native';
 import  { useState } from "react";
-
+import AsyncStorage from '@react-native-community/async-storage';
 export default class Test extends React.Component {
   constructor(props){
     super(props)
     
    
-   const token = localStorage.getItem('token')
- 
-  console.log('eminem: '+token)
+   const token = this.getStorageValue()
+    //AsyncStorage.setItem('cuadra','1a2b3c')
+    //this.getStorageValue()
+  //console.log('eminem: '+token)
     let loggedIn = true
     if(token==null){
         loggedIn = false
@@ -26,7 +26,10 @@ export default class Test extends React.Component {
       loggedIn
     }
 }
-
+async getStorageValue(){
+  var value = await AsyncStorage.getItem('token')
+  return value
+}
 
   render() {
     
@@ -38,17 +41,17 @@ export default class Test extends React.Component {
       
 
     return (
-      <ImageBackground  source={imgbg}style={styles.imgBack}>
-         <Avatar
+      <ImageBackground  resizeMode="cover" source={imgbg}style={styles.imgBack}>
+         
+          <View style={styles.container}>
+          <Avatar
               style={styles.avatar}
               rounded
               source={{
                     uri:
-                      require("../assets/logo.png"),
+                      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
                    }}
                 />
-          <View style={styles.container}>
-              
               <View style={styles.buttonContainer}>
               <TouchableOpacity
          style={styles.buttonLogin} onPress={() => this.setState({ cardstate: 0})}>
@@ -69,7 +72,7 @@ export default class Test extends React.Component {
           </View>    
           
           
-          <Text style={styles.recuperarText}onPress={()=>alert('hola')}>Recuperar Password</Text>
+          <Text style={styles.recuperarText}onPress={()=>this.props.navigation.navigate('Forgot')}>Recuperar Password</Text>
          </ImageBackground>   
         
     );
@@ -119,7 +122,7 @@ const styles = StyleSheet.create({
 
   },
   loginContainer:{
-    height:'70%',
+    height:'60%',
     width:'80%',
     alignSelf:'center',
     backgroundColor:'#e1e9f5',
@@ -129,7 +132,7 @@ const styles = StyleSheet.create({
 
   },
   registerContainer:{
-    height:'90%',
+    height:'70%',
     width:'80%',
     alignSelf:'center',
     backgroundColor:'#e1e9f5',
@@ -139,8 +142,8 @@ const styles = StyleSheet.create({
 
   },
   avatar:{
-    height:'100px',
-    width:'100px',
+    height:100,
+    width:100,
     alignSelf:'center',
     marginBottom:'-3%',
     marginTop:'12%'
@@ -157,7 +160,7 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   },
   imgBack:{
-    resizeMode:'cover',
+    
     flex:1,
   },
   recuperarText:{

@@ -3,8 +3,9 @@ import { Text, TextInput, View, Image, ImageBackground, StyleSheet, TouchableOpa
 import { Icon, Button, Card } from 'react-native-elements'
 import { set } from 'react-native-reanimated';
 import Test from './Test';
-import { AsyncStorage } from 'react-native';
-import AwesomeAlert from 'react-native-awesome-alerts';
+
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 const imgbg = require('../assets/ex.jpg');
 export default class LoginScreen extends React.Component {
@@ -17,7 +18,8 @@ export default class LoginScreen extends React.Component {
       password: '',
       showAlert: false,
       state:'',
-      showAlertLog:false
+      showAlertLog:false,
+      alertColor:''
     }
   }
   static navigationOptions = {
@@ -41,16 +43,18 @@ export default class LoginScreen extends React.Component {
     this.setState({ [e.target.name]: e.target.value })
     
   }
-
+  
+  
   submit() {
-    
+   
+  
     let collection = {}
     collection.email = this.state.email,
       collection.password = this.state.password
 
     console.log(collection)
 
-    var url = 'http://127.0.0.1:8000/auth/login/';
+    var url = 'http://54.177.164.213/auth/login/';
 
     fetch(url, {
       method: 'POST', // or 'PUT'
@@ -67,28 +71,30 @@ export default class LoginScreen extends React.Component {
         .then(response => {
           console.log(response.status, response.data)
           if (response.status == '200') {
-            localStorage.setItem("token", response.data.tokens)
-            this.state.showAlertLog = true
+            AsyncStorage.setItem('token',response.data.tokens)
+            //localStorage.setItem("token", response.data.tokens)
+           this.state.showAlertLog = true
             window.location.reload(false);
             
           }
           else if (response.status == '403') {
             this.state.state=response.data.detail
-            this.showAlert()
+            this.state.alertColor="red"
+          this.showAlert()
             
           }
           else if (response.status == '401') {
             this.state.state=response.data.detail
-            this.showAlert()
+           this.showAlert()
             
           }
           else if (response.status == '400' && response.data.password) {
             this.state.state=response.data.password
-            this.showAlert()
+           this.showAlert()
           }
           else if (response.status == '400' && response.data.email) {
             this.state.state=response.data.email
-            this.showAlert()
+           this.showAlert()
           }
 
         }));
@@ -99,7 +105,14 @@ export default class LoginScreen extends React.Component {
   render() {
     const { email, password } = this.state;
     const {showAlert,showAlertLog} = this.state;
-    
+    const text =this.state.state
+    const styleAlertText={
+      alignSelf:'center',
+      fontSize:10,
+      paddingTop:'12%',
+      fontWeight:'bold',
+      color:this.state.alertColor
+    }
     return (
      
       <View style={styles.container}>
@@ -108,8 +121,8 @@ export default class LoginScreen extends React.Component {
         <Text style={styles.textTitle}>Entrar</Text>
         <View style={styles.containerUserName} >
 
-          <TextInput placeholder="Email" placeholderTextColor="gray"
-            style={styles.textInput} onChange={this.changeHandler} name="email" value={email} selectionColor="red"  />
+          <TextInput placeholder="Email" placeholderTextColor="gray" 
+            style={styles.textInput} onChange={this.changeHandler} name="email" value={email} selectionColor="blue" />
         </View>
 
         <View style={styles.containerPassword}>
@@ -126,31 +139,9 @@ export default class LoginScreen extends React.Component {
             <Text style={styles.loginText}>Entrar</Text>
           </TouchableOpacity>
         </View>
-        <AwesomeAlert
-          show={showAlert}
-          showProgress={false}
-          title="Advertencia"
-          message={this.state.state}
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showConfirmButton={true}
-          confirmText="Ok"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-          }}
-        />
-         <AwesomeAlert
-          show={showAlertLog}
-          showProgress={true}
-          title="Bienvenido"
-          message="Ingresando"
-         
-        />
-     
+      
+        
+          <Text style={styles.alertText} disabled={this.state.showAlert}  style={styleAlertText}>{text}</Text>
       </View>
 
     );
@@ -168,7 +159,7 @@ const styles = StyleSheet.create({
   containerSignIn: {
     height: 60,
     width: '30%',
-    marginTop: '10px',
+    marginTop: 10,
     alignSelf: 'center',
 
 
@@ -219,7 +210,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     paddingTop: '20%',
-    paddingBottom: '20px',
+    paddingBottom: 20,
     width: '280%',
     alignSelf: 'center'
   },
@@ -242,5 +233,13 @@ const styles = StyleSheet.create({
   },
   prueba: {
     borderColor: 'red'
+  },
+  alertText:{
+   
+    alignSelf:'center',
+    fontSize:10,
+    paddingTop:'12%',
+    fontWeight:'bold',
+    
   }
 })

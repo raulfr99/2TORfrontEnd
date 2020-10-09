@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { Text,TextInput,View, ImageBackground,StyleSheet, AsyncStorage } from 'react-native';
+import { Text,TextInput,View, ImageBackground,StyleSheet } from 'react-native';
 import { Icon,Button,Header } from 'react-native-elements'
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props)
-        const token = localStorage.getItem("token")
+        const token = this.getStorageValue()
         //const token = AsyncStorage.getItem("token")
         let loggedIn = true
         if(token==null){
@@ -20,11 +21,15 @@ export default class HomeScreen extends React.Component {
       
     header: null
   }
+  async getStorageValue(){
+    var value = await AsyncStorage.getItem('cuadra')
+    return value
+  }
 
   render() {
       const pressHandler = () =>{
       
-        localStorage.removeItem("token")
+        AsyncStorage.removeItem('token')
         window.location.reload(false);
        
       }

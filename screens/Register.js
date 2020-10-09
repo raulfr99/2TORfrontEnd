@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
 
   },
   avatar: {
-    height: '120px',
-    width: '120px',
+    height: 120,
+    width: 120,
     alignSelf: 'center',
     marginBottom: '15%',
     marginTop: '15%'

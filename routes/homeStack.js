@@ -6,7 +6,7 @@ import Test from '../screens/Test'
 import HomeScreen from '../screens/Home'
 import RegisterUsScreen from '../screens/RegistroUs'
 import RegisterProfScreen from '../screens/RegistroProf'
-
+import ForgotPassword from '../screens/ForgotPassword'
 const screens = {
     Test:{
         screen:Test
@@ -19,6 +19,9 @@ const screens = {
     },
     Home:{
         screen:HomeScreen
+    },
+    Forgot:{
+        screen:ForgotPassword
     }
 }
 const HomeStack = createStackNavigator(screens);
