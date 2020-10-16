@@ -17,10 +17,7 @@ export default class HomeScreen extends React.Component {
             loggedIn
         }
     }
-  static navigationOptions ={
-      
-    header: null
-  }
+ 
   async getStorageValue(){
     var value = await AsyncStorage.getItem('cuadra')
     return value
@@ -30,7 +27,7 @@ export default class HomeScreen extends React.Component {
       const pressHandler = () =>{
       
         AsyncStorage.removeItem('token')
-        window.location.reload(false);
+        this.props.navigation.navigate('Test')
        
       }
   

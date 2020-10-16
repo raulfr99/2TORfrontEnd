@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity,ScrollView,SafeAreaView } from 'react-native';
 import { Card, ListItem, Button, Icon } from 'react-native-elements'
 
 import LoginScreen from './screens/LoginScreen'
@@ -12,10 +12,9 @@ export default function App() {
   
    
   return (
-    
+   
     <Navigator/>
    
-      
   );
 }
 

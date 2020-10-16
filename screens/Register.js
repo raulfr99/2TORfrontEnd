@@ -19,9 +19,7 @@ export default class RegisterScreen extends React.Component {
     this.setState({ isFocused: true });
   }
 
-  static navigationOptions = {
-    header: null
-  }
+ 
 
   render() {
 
@@ -51,9 +49,10 @@ export default class RegisterScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-
+    flex:1,
     width: '100%',
-    height: '110%'
+    height:'100%'
+    
   },
   buttonUs: {
     alignItems: "center",
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
 
   },
   tabsContainer: {
-    height: '80%',
+    height: '100%',
     width: '80%',
     alignSelf: 'center',
     backgroundColor: '#e1e9f5',
@@ -110,18 +109,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
 
   },
-  avatar: {
-    height: 120,
-    width: 120,
-    alignSelf: 'center',
-    marginBottom: '15%',
-    marginTop: '15%'
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10
-  },
+  
+ 
   textButton: {
     color: 'black',
     fontSize: 10,

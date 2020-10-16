@@ -5,6 +5,7 @@ import { set } from 'react-native-reanimated';
 import Test from './Test';
 
 import AsyncStorage from '@react-native-community/async-storage';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const imgbg = require('../assets/ex.jpg');
@@ -19,17 +20,20 @@ export default class LoginScreen extends React.Component {
       showAlert: false,
       state:'',
       showAlertLog:false,
-      alertColor:''
+      alertColor:'',
+      emailProp:false
     }
   }
-  static navigationOptions = {
-    header: null
-  }
-
+  
  
   showAlert = () => {
     this.setState({
       showAlert: true
+    });
+  };
+  showProp = () => {
+    this.setState({
+      emailProp: true
     });
   };
   
@@ -71,30 +75,36 @@ export default class LoginScreen extends React.Component {
         .then(response => {
           console.log(response.status, response.data)
           if (response.status == '200') {
-            AsyncStorage.setItem('token',response.data.tokens)
+            AsyncStorage.setItem('token',response.data.tokens.access)
             //localStorage.setItem("token", response.data.tokens)
+            
            this.state.showAlertLog = true
-            window.location.reload(false);
+            this.props.navigation.navigate('Home')
             
           }
           else if (response.status == '403') {
             this.state.state=response.data.detail
             this.state.alertColor="red"
           this.showAlert()
+          this.showProp()
             
           }
           else if (response.status == '401') {
             this.state.state=response.data.detail
            this.showAlert()
+           this.showProp()
             
           }
           else if (response.status == '400' && response.data.password) {
             this.state.state=response.data.password
            this.showAlert()
+           this.showProp()
           }
           else if (response.status == '400' && response.data.email) {
             this.state.state=response.data.email
+            
            this.showAlert()
+           this.showProp()
           }
 
         }));
@@ -104,31 +114,31 @@ export default class LoginScreen extends React.Component {
 
   render() {
     const { email, password } = this.state;
-    const {showAlert,showAlertLog} = this.state;
+    const {showAlert,showAlertLog,emailProp} = this.state;
     const text =this.state.state
     const styleAlertText={
       alignSelf:'center',
       fontSize:10,
       paddingTop:'12%',
       fontWeight:'bold',
-      color:this.state.alertColor
+      color:'red'
     }
     return (
      
       <View style={styles.container}>
-
+      
 
         <Text style={styles.textTitle}>Entrar</Text>
         <View style={styles.containerUserName} >
 
           <TextInput placeholder="Email" placeholderTextColor="gray" 
-            style={styles.textInput} onChange={this.changeHandler} name="email" value={email} selectionColor="blue" />
+            style={styles.textInput} onChangeText={(value)=>this.setState({email:value})} name="email" autoFocus={this.state.emailProp} />
         </View>
 
         <View style={styles.containerPassword}>
 
           <TextInput placeholder="Contrasena" placeholderTextColor="gray"
-            style={styles.textInput} onChange={this.changeHandler} name="password" value={password} secureTextEntry={true} />
+            style={styles.textInput} onChangeText={(value)=>this.setState({password:value})} name="password"  secureTextEntry={ true } />
         </View>
 
         <View style={styles.containerSignIn}>
@@ -142,7 +152,9 @@ export default class LoginScreen extends React.Component {
       
         
           <Text style={styles.alertText} disabled={this.state.showAlert}  style={styleAlertText}>{text}</Text>
+         
       </View>
+     
 
     );
   }
@@ -154,7 +166,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    width: '100%'
+    width: '100%',
+    height:'100%'
   },
   containerSignIn: {
     height: 60,
@@ -226,8 +239,8 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontSize: 15,
     alignSelf: 'center',
-    marginTop: '-15%',
-    marginBottom: '15%',
+    
+    marginBottom: '5%',
     fontWeight: 'bold'
 
   },

@@ -6,20 +6,14 @@ const imgFooter = require('../assets/reg.jpg');
 const imgCamera = require('../assets/camara.png')
 
 export default class RegisterProfScreen extends React.Component {
-  static navigationOptions = {
-    header: null
-  }
+  
 
   render() {
 
     return (
       <View style={styles.container}>
 
-        <View style={styles.containerPhoto}>
-
-          <TextInput placeholder="Foto de Perfil" placeholderTextColor="gray"
-            style={styles.textInput}  name="photo" />
-        </View>
+        
         <View style={styles.containerName}>
 
           <TextInput placeholder="Nombre y apellido" placeholderTextColor="gray"
@@ -86,7 +80,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     width: '100%',
     height: '100%',
-   
+    marginTop:'-10%'
 
   },
   
@@ -98,17 +92,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginLeft: '10%',
     marginRight: '10%',
+    marginTop:'-25%'
+    
 
   },
-  containerPhoto: {
-    height: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-    marginLeft: '10%',
-    marginRight: '10%',
-
-  },
+ 
   containerPassword: {
     height: 50,
     flexDirection: 'row',
@@ -215,7 +203,7 @@ const styles = StyleSheet.create({
   stepContainer:{
     
     width:'100%',
-    height:'10%',
+    height:'5%',
     backgroundColor:'white',
     marginTop:'10%',
     flexDirection: 'row'

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text,TextInput,View, ImageBackground,StyleSheet,TouchableOpacity, Picker,Alert } from 'react-native';
 import { Icon,Button,Avatar } from 'react-native-elements'
-import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 const imgFooter = require('../assets/reg.jpg');
 const imgCamera = require('../assets/camara.png')
@@ -21,14 +21,13 @@ export default class RegisterUsScreen extends React.Component {
         email:'',
         password:'',
         showAlert: false,
-        state:''
+        state:'',
+       
 
         
     }
 }
-  static navigationOptions ={
-    header: null
-  }
+  
   
 
   changeHandler = e =>{
@@ -84,6 +83,7 @@ export default class RegisterUsScreen extends React.Component {
         }
         else if(response.data.errors.email){
           this.state.state=(response.data.errors.email)
+        
           this.showAlert()
         }
         else if(response.data.errors.username){
@@ -108,7 +108,7 @@ export default class RegisterUsScreen extends React.Component {
   render() {
     
     const {name,email, password} = this.state;
-    const {showAlert} = this.state;
+    const {showAlert,emailProp} = this.state;
     return (
           <View style={styles.container}>
           
@@ -116,7 +116,7 @@ export default class RegisterUsScreen extends React.Component {
           <View style={styles.containerName}>
              
              <TextInput  placeholder="Nombre y apellido" placeholderTextColor="gray"
-             style={styles.textInput} onChange={this.changeHandler}name="name" value={name}  /> 
+             style={styles.textInput} onChange={this.changeHandler}name="name" value={name}   /> 
            </View>
             
            <View style={styles.containerEmail}>
@@ -138,23 +138,7 @@ export default class RegisterUsScreen extends React.Component {
         <Picker.Item label="Espanol" value="js" />
       </Picker>
       </View>
-      <AwesomeAlert
-          show={showAlert}
-          showProgress={false}
-          title="Advertencia"
-          message={this.state.state}
-          closeOnTouchOutside={true}
-          closeOnHardwareBackPress={false}
-          showConfirmButton={true}
-          confirmText="Ok"
-          confirmButtonColor="#DD6B55"
-          onCancelPressed={() => {
-            this.hideAlert();
-          }}
-          onConfirmPressed={() => {
-            this.hideAlert();
-          }}
-        />
+     
         
 
            <View style={styles.containerSignIn}>
@@ -183,27 +167,18 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     width:'100%',
     height:'100%',
+    marginTop:'-25%'
+   
     
   },
-  avatarCamara:{
-    width:'25%',
-    height:'20%',
-    alignSelf:'center',
-    marginTop:'10%'
-  },
-  containerRegister:{
-    flex:2,
-    marginLeft:'3%',
-    marginRight:'3%',
-    borderBottomColor: 'gray',
-    borderBottomWidth: 1,
-  },
+  
+  
   
   containerSignIn:{
     height: 50,
     marginLeft:'12%',
     marginRight:'12%',
-    marginTop:'9%'
+    marginTop:'8%'
   },
   containerName:{
     height: 50,
@@ -212,6 +187,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     marginLeft:'10%',
     marginRight:'10%',
+   
     
   },
   containerPassword:{

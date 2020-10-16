@@ -1,59 +1,61 @@
 import * as React from 'react';
-import { Text,TextInput,View, Image,ImageBackground, StyleSheet,TouchableOpacity,Alert,TouchableHighlight } from 'react-native';
-import { Icon,Button,Card } from 'react-native-elements'
+import { Text,TextInput,View, Image,ImageBackground, StyleSheet,TouchableOpacity,Alert,TouchableHighlight,SafeAreaView} from 'react-native';
+import { Icon,Button,Card, ThemeConsumer } from 'react-native-elements'
 import { Avatar, Accessory } from 'react-native-elements';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/Register';
 const imgbg = require('../assets/fondo2.jpg');
 import  { useState } from "react";
 import AsyncStorage from '@react-native-community/async-storage';
+import { ScrollView } from 'react-native-gesture-handler';
+
+const logoI = require('../assets/logo.png')
+
 export default class Test extends React.Component {
   constructor(props){
     super(props)
+    let loggedIn;
+   this.state = {
+     cardstate:0,
+     loggedIn
+   }
+   //this.getStorageValue()
+ 
     
-   
-   const token = this.getStorageValue()
-    //AsyncStorage.setItem('cuadra','1a2b3c')
-    //this.getStorageValue()
-  //console.log('eminem: '+token)
-    let loggedIn = true
-    if(token==null){
-        loggedIn = false
-    }
-   
-    this.state = {
-      cardstate:0,
-      loggedIn
-    }
 }
+   
+
+/*
 async getStorageValue(){
-  var value = await AsyncStorage.getItem('token')
-  return value
-}
+   this.token =  await AsyncStorage.getItem('token');
+    //console.log('ala: '+this.token);
+     
+    if(this.token==null){
+       this.setState({loggedIn :false})
+    }
+    else {
+      this.setState({loggedIn :true})
+    }
+    if(this.state.loggedIn){
+      this.props.navigation.replace('Home')
+    }
+}*/
 
   render() {
     
-    
-      if(this.state.loggedIn){
-        this.props.navigation.navigate('Home')
-      }
-   
-      
 
     return (
-      <ImageBackground  resizeMode="cover" source={imgbg}style={styles.imgBack}>
-         
-          <View style={styles.container}>
+      
+       <ScrollView contentContainerStyle={{flexGrow: 0}}>
+         <ImageBackground  source={imgbg} resizeMode="cover"style={styles.imgBack}>
           <Avatar
               style={styles.avatar}
               rounded
-              source={{
-                    uri:
-                      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-                   }}
+              source={logoI}
                 />
-              <View style={styles.buttonContainer}>
-              <TouchableOpacity
+
+        <View style={styles.buttonContainer}>
+        <TouchableOpacity
          style={styles.buttonLogin} onPress={() => this.setState({ cardstate: 0})}>
         <Text style={styles.textButton}>Entrar</Text>
          </TouchableOpacity>
@@ -63,17 +65,18 @@ async getStorageValue(){
          </TouchableOpacity>
          </View>
          
-         {this.state.cardstate == 0 ? ( <View style={styles.loginContainer}><LoginScreen/></View> ) 
-         : ( <View style={styles.registerContainer}><RegisterScreen/></View> )}
-         
-         
-         
+         {this.state.cardstate == 0 ? ( <View style={styles.loginContainer}><LoginScreen navigation={this.props.navigation}/>
+         </View> ) 
+         : ( <View style={styles.registerContainer}><RegisterScreen navigation={this.props.navigation}/></View> )}
+            
         
-          </View>    
+
+
           
-          
-          <Text style={styles.recuperarText}onPress={()=>this.props.navigation.navigate('Forgot')}>Recuperar Password</Text>
-         </ImageBackground>   
+           <Text style={styles.recuperarText}onPress={()=>this.props.navigation.navigate('Forgot')}  >Recuperar Password</Text>
+             
+           </ImageBackground>  
+           </ScrollView>
         
     );
   }
@@ -82,10 +85,12 @@ async getStorageValue(){
 
 const styles = StyleSheet.create({
   container:{
-    flex:1,
-    width:'100%',
-    height:'100%',
+   flex:1,
+    width:null,
+    height:null,
+   
   },
+  
   buttonLogin:{
     alignItems: "center",
     padding: 10,
@@ -129,10 +134,11 @@ const styles = StyleSheet.create({
     borderRadius:30,
     backgroundColor:'white',
     
+    
 
   },
   registerContainer:{
-    height:'70%',
+    height:'100%',
     width:'80%',
     alignSelf:'center',
     backgroundColor:'#e1e9f5',
@@ -142,8 +148,8 @@ const styles = StyleSheet.create({
 
   },
   avatar:{
-    height:100,
-    width:100,
+    height:70,
+    width:70,
     alignSelf:'center',
     marginBottom:'-3%',
     marginTop:'12%'
@@ -156,19 +162,21 @@ const styles = StyleSheet.create({
   },
   textButton:{
     color:'white',
-    fontSize:18,
+    fontSize:15,
     fontWeight:'bold'
   },
   imgBack:{
-    
     flex:1,
+    width:'100%',
+    height:'100%',
   },
   recuperarText:{
     color:'white',
     fontWeight:'bold',
     fontSize:20,
     alignSelf:'center',
-    marginBottom:'10%'
+   marginTop:'25%'
+   
   },
   modalView: {
     margin: 20,
