@@ -46,8 +46,8 @@ async getStorageValue(){
 
     return (
       
-       <ScrollView contentContainerStyle={{flexGrow: 0}}>
-         <ImageBackground  source={imgbg} resizeMode="cover"style={styles.imgBack}>
+       <ScrollView  style={styles.scroll}contentContainerStyle={{flex: 1}}>
+         <ImageBackground  source={imgbg} resizeMode="stretch"style={styles.imgBack}>
           <Avatar
               style={styles.avatar}
               rounded
@@ -72,8 +72,9 @@ async getStorageValue(){
         
 
 
-          
-           <Text style={styles.recuperarText}onPress={()=>this.props.navigation.navigate('Forgot')}  >Recuperar Password</Text>
+            {this.state.cardstate == 0 ? ( <Text style={styles.recuperarText}onPress={()=>this.props.navigation.navigate('Forgot')}  >Recuperar Password</Text> ) 
+         : ( null )}
+           
              
            </ImageBackground>  
            </ScrollView>
@@ -86,8 +87,8 @@ async getStorageValue(){
 const styles = StyleSheet.create({
   container:{
    flex:1,
-    width:null,
-    height:null,
+    width:'100%',
+    height:'100%',
    
   },
   
@@ -126,6 +127,10 @@ const styles = StyleSheet.create({
     
 
   },
+  scroll:{
+    width:'100%',
+    height:'100%'
+  },
   loginContainer:{
     height:'60%',
     width:'80%',
@@ -138,7 +143,7 @@ const styles = StyleSheet.create({
 
   },
   registerContainer:{
-    height:'100%',
+    height:'70%',
     width:'80%',
     alignSelf:'center',
     backgroundColor:'#e1e9f5',
@@ -167,15 +172,14 @@ const styles = StyleSheet.create({
   },
   imgBack:{
     flex:1,
-    width:'100%',
-    height:'100%',
+   
   },
   recuperarText:{
     color:'white',
     fontWeight:'bold',
     fontSize:20,
     alignSelf:'center',
-   marginTop:'25%'
+   
    
   },
   modalView: {

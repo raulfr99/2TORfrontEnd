@@ -8,6 +8,7 @@ import RegisterUsScreen from '../screens/RegistroUs'
 import RegisterProfScreen from '../screens/RegistroProf'
 import ForgotPassword from '../screens/ForgotPassword'
 import Loading from '../screens/Loading'
+import SteepScreen from '../screens/StepsScreen'
 const screens = {
     Test:{
         screen:Test,
@@ -83,6 +84,12 @@ const AppStack = createStackNavigator({
       },
       Forgot: {
         screen: ForgotPassword,
+        navigationOptions: {
+            headerShown: false,
+        },
+      },
+      Steps:{
+        screen: SteepScreen,
         navigationOptions: {
             headerShown: false,
         },

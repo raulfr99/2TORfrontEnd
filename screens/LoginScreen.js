@@ -114,7 +114,7 @@ export default class LoginScreen extends React.Component {
 
   render() {
     const { email, password } = this.state;
-    const {showAlert,showAlertLog,emailProp} = this.state;
+    const {showAlert,showAlertLog} = this.state;
     const text =this.state.state
     const styleAlertText={
       alignSelf:'center',

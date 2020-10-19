@@ -37,7 +37,7 @@ export default class RegisterScreen extends React.Component {
           </TouchableOpacity>
         </View>
         <View style={styles.tabsContainer}>
-          {this.state.cardstate == 0 ? (<RegisterUsScreen />) : (<RegisterProfScreen />)}
+          {this.state.cardstate == 0 ? (<RegisterUsScreen navigation={this.props.navigation}/>) : (<RegisterProfScreen navigation={this.props.navigation} />)}
 
         </View>
        
@@ -49,9 +49,9 @@ export default class RegisterScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+   
     width: '100%',
-    height:'100%'
+    height:'70%'
     
   },
   buttonUs: {

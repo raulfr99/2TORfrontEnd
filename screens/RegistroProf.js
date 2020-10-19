@@ -45,10 +45,18 @@ export default class RegisterProfScreen extends React.Component {
             style={styles.buttonLogin}
             onPress={() => this.submit()}
             underlayColor='#fff'>
-            <Text style={styles.loginText}>Entrar</Text>
+            <Text style={styles.loginText}>Siguente</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.stepText}>Pasos</Text>
+        <View style={styles.containerSignIn}>
+          <TouchableOpacity
+            style={styles.buttonLogin}
+            onPress={() => this.props.navigation.navigate('Steps')}
+            underlayColor='#fff'>
+            <Text style={styles.loginText}>Siguente</Text>
+          </TouchableOpacity>
+        </View>
+        
         <View style={styles.stepContainer}>
           
           <View style={styles.step}>
@@ -74,13 +82,13 @@ export default class RegisterProfScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'stretch',
+    
+   
+    
+    
     width: '100%',
     height: '100%',
-    marginTop:'-10%'
+  
 
   },
   
@@ -92,7 +100,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginLeft: '10%',
     marginRight: '10%',
-    marginTop:'-25%'
+   
     
 
   },
