@@ -129,7 +129,8 @@ const styles = StyleSheet.create({
   },
   scroll:{
     width:'100%',
-    height:'100%'
+    height:'100%',
+    flex:1
   },
   loginContainer:{
     height:'60%',
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
 
   },
   registerContainer:{
-    height:'70%',
+    height:'75%',
     width:'80%',
     alignSelf:'center',
     backgroundColor:'#e1e9f5',

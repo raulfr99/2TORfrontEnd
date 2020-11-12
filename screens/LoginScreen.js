@@ -54,11 +54,11 @@ export default class LoginScreen extends React.Component {
   
     let collection = {}
     collection.email = this.state.email,
-      collection.password = this.state.password
+    collection.password = this.state.password
 
     console.log(collection)
 
-    var url = 'http://54.177.164.213/auth/login/';
+    var url = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/login/';
 
     fetch(url, {
       method: 'POST', // or 'PUT'
@@ -76,6 +76,8 @@ export default class LoginScreen extends React.Component {
           console.log(response.status, response.data)
           if (response.status == '200') {
             AsyncStorage.setItem('token',response.data.tokens.access)
+            AsyncStorage.setItem('nombre',response.data.name_lastname)
+            AsyncStorage.setItem('imagen_perfil',response.data.profile_photo)
             //localStorage.setItem("token", response.data.tokens)
             
            this.state.showAlertLog = true
@@ -132,7 +134,7 @@ export default class LoginScreen extends React.Component {
         <View style={styles.containerUserName} >
 
           <TextInput placeholder="Email" placeholderTextColor="gray" 
-            style={styles.textInput} onChangeText={(value)=>this.setState({email:value})} name="email" autoFocus={this.state.emailProp} />
+            style={styles.textInput} onChangeText={(value)=>this.setState({email:value})} name="email" autoFocus={this.state.emailProp} value={this.state.email} />
         </View>
 
         <View style={styles.containerPassword}>

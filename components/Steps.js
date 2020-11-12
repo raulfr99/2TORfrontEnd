@@ -39,6 +39,7 @@ class Steps extends PureComponent {
     }
 
     _onSubmit = () => {
+        
         Alert.alert(JSON.stringify(this.state.values))
     }
     render() {

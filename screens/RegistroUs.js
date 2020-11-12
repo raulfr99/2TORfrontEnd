@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text,TextInput,View, ImageBackground,StyleSheet,TouchableOpacity, Picker,Alert } from 'react-native';
 import { Icon,Button,Avatar } from 'react-native-elements'
-
+import * as ImagePicker from 'expo-image-picker'
 
 const imgFooter = require('../assets/reg.jpg');
 const imgCamera = require('../assets/camara.png')
@@ -20,6 +20,10 @@ export default class RegisterUsScreen extends React.Component {
         name:'',
         email:'',
         password:'',
+        image_profile:null,
+        imageUri:null,
+        fileName:null,
+        type:null,
         showAlert: false,
         state:'',
        
@@ -28,7 +32,24 @@ export default class RegisterUsScreen extends React.Component {
     }
 }
   
-  
+openImg = async()=>{
+  let permission = await ImagePicker.requestCameraRollPermissionsAsync();
+
+  if(permission.granted===false){
+    return;
+  }
+  let picker = await ImagePicker.launchImageLibraryAsync()
+  console.log(picker)
+  this.setState({image_profile:picker})
+  let localUri = picker.uri;
+  let filename = localUri.split('/').pop();
+  let match = /\.(\w+)$/.exec(filename);
+  let type = match ? `image/${match[1]}` : `image`;
+  let name = `${Math.floor((Math.random() * 100000000) + 1)+`.`+match[1]}`;
+  this.setState({imageUri:localUri})
+  this.setState({fileName:name})
+  this.setState({type:type})
+}
 
   changeHandler = e =>{
     this.setState({[e.target.name]:e.target.value})
@@ -46,20 +67,28 @@ export default class RegisterUsScreen extends React.Component {
   };
 
   submit(){
+    const data = new FormData();
+    data.append("email",this.state.email)
+    data.append("username",this.state.name)
+    data.append("password",this.state.password)
+    data.append("image_profile",{uri:this.state.imageUri,name:this.state.fileName,type:this.state.type})
+   //data.append("image_profile",this.state.image_profile)
   let collection={}
   collection.username=this.state.name,
   collection.email=this.state.email,
   collection.password=this.state.password
   
-  console.log(collection)
+  console.log(data)
   
-  var url = 'http://127.0.0.1:8000/auth/register/';
+  var url = 'http://2tor-env.eba-ycfehjvd.us-west-1.elasticbeanstalk.com/auth/register-alumnos/';
 
   fetch(url, {
     method: 'POST', 
-    body: JSON.stringify(collection), 
+    body: data, 
     headers:{
-      'Content-Type': 'application/json'
+      "Content-Type": 'multipart/form-data',
+      
+
     }
   }).then(res => res.json().then(data => ({
     data: data,
@@ -69,9 +98,21 @@ export default class RegisterUsScreen extends React.Component {
     .then(response => {
       console.log(response.status, response.data)
       if (response.status == '201') {
-        this.state.state=('Se ha enviado un correo de confirmacion a:'+'\n'+response.data.data.email)
-        this.showAlert()
-        window.location.reload(false);
+        this.state.state=('Se ha enviado un correo de confirmacion a:'+'\n'+response.data.email)
+        Alert.alert(
+          "Registrado",
+          ('Se ha enviado un correo de confirmacion a:'+'\n'+response.data.email),
+          [
+            {
+              text: "Aceptar",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel"
+            },
+            { text: "OK", onPress: () => console.log("OK Presse") }
+          ],
+          { cancelable: false }
+        );
+        
       }
       else if (response.status == '403') {
         alert(response.data.detail)
@@ -112,24 +153,31 @@ export default class RegisterUsScreen extends React.Component {
     return (
           <View style={styles.container}>
           
-          
+          <TouchableOpacity style={styles.photoContainer} onPress={this.openImg}>
+               <Icon name='photo-camera' style={styles.icon}  size={60} />
+               <View>
+               <Text style={styles.titleText}>Imagen de perfil</Text>
+               <Text style={styles.subText}>Presiona para elegir tu foto de perfil</Text>
+               </View>
+              </TouchableOpacity> 
           <View style={styles.containerName}>
              
              <TextInput  placeholder="Nombre y apellido" placeholderTextColor="gray"
-             style={styles.textInput} onChange={this.changeHandler}name="name" value={name}   /> 
+             style={styles.textInput}  onChangeText={(value)=>this.setState({name:value})} name="name" value={name}   /> 
            </View>
             
            <View style={styles.containerEmail}>
              
              <TextInput  placeholder="Email" placeholderTextColor="gray"
-             style={styles.textInput} onChange={this.changeHandler}name="email"  value={email}  /> 
+             style={styles.textInput}  onChangeText={(value)=>this.setState({email:value})} name="email"  value={email}  /> 
            </View>
 
            <View style={styles.containerPassword}>
            
              <TextInput placeholder="Contrasena" placeholderTextColor="gray"
-             style={styles.textInput} onChange={this.changeHandler} name="password" secureTextEntry={true} value={password} /> 
+             style={styles.textInput} onChangeText={(value)=>this.setState({password:value})} name="password" secureTextEntry={true} value={password} /> 
            </View>
+           {/*
            <View style={styles.containerPicker}>
            <Picker
            selectedValue="Zona de preferencias"
@@ -138,18 +186,19 @@ export default class RegisterUsScreen extends React.Component {
         <Picker.Item label="Espanol" value="js" />
       </Picker>
       </View>
-     
-        
-
+     */}
+            
            <View style={styles.containerSignIn}>
              <TouchableOpacity
                      style={styles.buttonLogin}
                      onPress={()=>this.submit()}
                      underlayColor='#fff'>
-                     <Text style={styles.loginText}>Entrar</Text>
+                     <Text style={styles.loginText}>Entra</Text>
            </TouchableOpacity>
            </View>
+          
             
+        
             
                              
             
@@ -275,5 +324,30 @@ const styles = StyleSheet.create({
     
     
    
-  }
+  },
+  photoContainer:{
+    marginTop:'10%',
+    flexDirection:'row',
+        height:'20%',
+        width:'60%',
+        alignContent:'flex-start',
+        
+  },
+  icon:{
+    marginRight:'10%'
+  },
+  titleText:{
+    fontSize:16,
+    fontWeight:'bold',
+    color:'black',
+ 
+  },
+  subText:{
+    fontSize:12,
+    fontWeight:'bold',
+    color:'gray',
+    opacity:0.9,
+    marginTop:'3%'
+   
+  },
 })

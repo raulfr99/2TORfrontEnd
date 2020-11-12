@@ -38,7 +38,7 @@ export default class RegisterScreen extends React.Component {
         </View>
         <View style={styles.tabsContainer}>
           {this.state.cardstate == 0 ? (<RegisterUsScreen navigation={this.props.navigation}/>) : (<RegisterProfScreen navigation={this.props.navigation} />)}
-
+          
         </View>
        
 
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   container: {
    
     width: '100%',
-    height:'70%'
+    height:'80%'
     
   },
   buttonUs: {

@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {View,StyleSheet,Button} from 'react-native';
+import {View,StyleSheet,Button,TouchableOpacity,Text} from 'react-native';
 class Step extends PureComponent {
     state = {  }
     render() {
@@ -10,10 +10,10 @@ class Step extends PureComponent {
                     values:this.props.values
                 })}
                 <View style={styles.buttonContainer}>
-                <Button title='Prev' disabled={this.props.currentIndex==0} onPress={this.props.prevStep}/>
+               <TouchableOpacity  disabled={this.props.currentIndex==0} onPress={this.props.prevStep}><Text style={styles.buttonText}>Paso anterior</Text></TouchableOpacity>
                 {this.props.isLast ?(
-                     <Button title='Submit'  onPress={this.props.onSubmit}/>
-                ): (<Button title='Next'  onPress={this.props.nextStep}/>)}
+                    <TouchableOpacity style={styles.button} onPress={this.props.onSubmit} ><Text style={styles.buttonText}>Enviar</Text></TouchableOpacity>
+                ): (<TouchableOpacity style={styles.button} onPress={this.props.nextStep}><Text style={styles.buttonText}>Siguiente paso</Text></TouchableOpacity>)}
                
                 </View>
             </View>
@@ -33,11 +33,16 @@ const styles = StyleSheet.create({
 
     },
     buttonContainer:{
-       
+        backgroundColor:'#22d48a',
         flexDirection:'row',
         height:60,
         alignItems:'center',
         justifyContent:'space-around'
+    },
+    buttonText:{
+       fontWeight:'bold',
+       color:'white',
+       fontSize:15
     }
 })
 
