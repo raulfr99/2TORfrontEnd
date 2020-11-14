@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "2torfrontend6483856f": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

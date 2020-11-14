@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-2torfrontend-dev-163610-authRole",
+      "UnauthRoleArn": "arn:aws:iam::835370206388:role/amplify-2torfrontend-dev-163610-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::835370206388:role/amplify-2torfrontend-dev-163610-authRole",
+      "Region": "us-west-2",
+      "DeploymentBucketName": "amplify-2torfrontend-dev-163610-deployment",
+      "UnauthRoleName": "amplify-2torfrontend-dev-163610-unauthRole",
+      "StackName": "amplify-2torfrontend-dev-163610",
+      "StackId": "arn:aws:cloudformation:us-west-2:835370206388:stack/amplify-2torfrontend-dev-163610/cd7aa120-26c9-11eb-b986-06249ca6f507",
+      "AmplifyAppId": "dh6hjn4wqqpyz"
+    },
+    "categories": {
+      "auth": {
+        "2torfrontend6483856f": {}
+      }
+    }
+  }
+}
