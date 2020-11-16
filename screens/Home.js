@@ -7,42 +7,63 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      user:'',
+      id:''
     };
   }
-
+  componentDidMount(){
+    this.getProfileData()
+  }
+  getProfileData = async () => {
+    this.setState({user: await AsyncStorage.getItem('user')})
+    this.setState({id: await AsyncStorage.getItem('id')})
+    
+    
+  }
+  getCount(){
+    Alert.alert('Test: '+this.state.id)
+  }
   render() {
+    
     return (
+     
       <View style={styles.container}>
       <ScrollView >
+        
       <View>
+        {}
         <Text style={styles.textTitle}>Para Ti:</Text>
-        <ScrollView horizontal={true}>
-          <TouchableOpacity style={styles.cardHome}>
-          <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
-            <Text>Raul Flores</Text>
-            
-            <Text style={{color:'gray'}}>Ingles</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cardHome}>
-          <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
-            <Text>Raul Flores</Text>
-            
-            <Text style={{color:'gray'}}>Ingles</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cardHome}>
-          <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
-            <Text>Raul Flores</Text>
+        {this.state.user == 'false' ?
+         (<ScrollView horizontal={true}>
+         <TouchableOpacity style={styles.cardHome}>
+         <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
+           <Text>Raul Flores</Text>
            
-            <Text style={{color:'gray'}}>Ingles</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cardHome}>
-          <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
-            <Text>Raul Flores</Text>
-            
-            <Text style={{color:'gray'}}>Ingles</Text>
-          </TouchableOpacity>
+           <Text style={{color:'gray'}}>Ingles</Text>
+         </TouchableOpacity>
+         <TouchableOpacity style={styles.cardHome}>
+         <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
+           <Text>Raul Flores</Text>
+           
+           <Text style={{color:'gray'}}>Ingles</Text>
+         </TouchableOpacity>
+         <TouchableOpacity style={styles.cardHome}>
+         <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
+           <Text>Raul Flores</Text>
           
-          </ScrollView>
+           <Text style={{color:'gray'}}>Ingles</Text>
+         </TouchableOpacity>
+         <TouchableOpacity style={styles.cardHome}>
+         <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
+           <Text>Raul Flores</Text>
+           
+           <Text style={{color:'gray'}}>Ingles</Text>
+         </TouchableOpacity>
+         
+         </ScrollView>  
+         )
+        : (<Text>Hola</Text>)}
+       
       </View>
       
       <View style={styles.cardsContainer}>
@@ -57,7 +78,7 @@ export default class Home extends Component {
 }
 const styles = StyleSheet.create({
     container:{
-     
+     backgroundColor:'#F6F5FA'
     },
     textTitle:{
       color:'gray',

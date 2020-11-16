@@ -15,13 +15,16 @@ export default class StepsScreen extends Component {
    // const name = this.props.route.params.name;
     //console.log('Morris: '+ prevData)
     this.state = {
-      name:null,
-      email:null,
-      password:null,
+      dataR:{},
+      image:'',
+      name:'',
+      email:'',
+      password:''
     };
   
 
   }
+  
    openImg = async()=>{
     let permission = await ImagePicker.requestCameraRollPermissionsAsync();
 
@@ -33,6 +36,12 @@ export default class StepsScreen extends Component {
   }
 
   render() {
+    const {state} = this.props.navigation;
+    
+    
+    
+    
+    
     return (
       <ScrollView  style={styles.scroll}contentContainerStyle={{flex: 1}}>
         <ImageBackground  source={imgbg} resizeMode="stretch"style={styles.imgBack}>

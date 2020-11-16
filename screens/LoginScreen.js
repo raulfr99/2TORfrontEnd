@@ -78,6 +78,8 @@ export default class LoginScreen extends React.Component {
             AsyncStorage.setItem('token',response.data.tokens.access)
             AsyncStorage.setItem('nombre',response.data.name_lastname)
             AsyncStorage.setItem('imagen_perfil',response.data.profile_photo)
+            AsyncStorage.setItem('id',response.data.id)
+            AsyncStorage.setItem('user',JSON.stringify(response.data.user))
             //localStorage.setItem("token", response.data.tokens)
             
            this.state.showAlertLog = true

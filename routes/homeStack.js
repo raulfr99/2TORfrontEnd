@@ -17,6 +17,8 @@ import Loading from '../screens/Loading'
 import Search from '../screens/Search'
 import Ofertar from '../screens/Ofertar'
 import SteepScreen from '../screens/StepsScreen'
+import Ofertas from '../screens/Ofertas'
+import ChatMessages from '../screens/ChatMessages'
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 
 
@@ -82,10 +84,10 @@ const Tabs = createMaterialTopTabNavigator({
       paddingTop: 3,
     },
     indicatorStyle: {
-      backgroundColor: 'green',
+      backgroundColor: 'black',
       elevation: 10,
     },
-    activeTintColor: 'green',
+    activeTintColor: 'black',
     inactiveTintColor: 'gray',
   },
 },
@@ -137,6 +139,32 @@ const AppStack = createStackNavigator({
       screen:Ofertar,
       navigationOptions:{
         title: 'Ofertar',
+        headerStyle: {
+          backgroundColor: 'white',
+        },
+        headerTitleStyle: {
+          color: 'gray',
+        },
+        
+      }
+    },
+    Ofertas:{
+      screen:Ofertas,
+      navigationOptions:{
+        title: 'Ofertas',
+        headerStyle: {
+          backgroundColor: 'white',
+        },
+        headerTitleStyle: {
+          color: 'gray',
+        },
+        
+      }
+    },
+    ChatMessages:{
+      screen:ChatMessages,
+      navigationOptions:{
+        title: 'Mensajes',
         headerStyle: {
           backgroundColor: 'white',
         },

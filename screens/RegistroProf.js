@@ -49,7 +49,8 @@ openImg = async()=>{
     obj.password = this.state.password
     obj.image_profile = this.state.image_profile
     if(obj.name && obj.email && obj.password !== null){
-      this.props.navigation.navigate('Steps',{name:'Raulito'})
+      
+      this.props.navigation.navigate('Steps',{data:obj})
       
     }
     else{

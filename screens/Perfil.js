@@ -45,9 +45,13 @@ export default class Perfil extends Component {
          <TouchableOpacity style={styles.resButtons}>
            <Text style={styles.textButton}>Clases</Text>
          </TouchableOpacity>
+         <TouchableOpacity style={styles.resButtons} onPress={()=>this.props.navigation.navigate('Ofertas')} >
+           <Text style={styles.textButton}>Ofertas</Text>
+         </TouchableOpacity>
          <TouchableOpacity style={styles.resButtons}>
            <Text style={styles.textButton}>Cartera</Text>
          </TouchableOpacity>
+         
         </View>
         
          <TouchableOpacity onPress={()=>this.test()} style={styles.buttonLogout}>
@@ -63,6 +67,7 @@ const styles = StyleSheet.create({
       width:'100%',
       height:'100%',
       flex:1,
+      backgroundColor:'#F6F5FA'
      
     },
     buttonLogout:{
@@ -100,7 +105,7 @@ const styles = StyleSheet.create({
     perContainer:{
       justifyContent:'space-between',
       flexDirection:'row',
-      width:'80%',
+      width:'90%',
       alignSelf:'center'
     },
     textButton:{
@@ -111,9 +116,9 @@ const styles = StyleSheet.create({
 
     },
     resButtons:{
-      width:'40%',
+      width:'33%',
       height:'100%',
       backgroundColor:'#40E29F',
-      borderRadius:10
+      borderRadius:5
     }
   })
