@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, TextInput, View, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, TextInput, View, ImageBackground, StyleSheet, TouchableOpacity,ScrollView } from 'react-native';
 import { Icon, Button } from 'react-native-elements'
 import RegisterUsScreen from '../screens/RegistroUs'
 import RegisterProfScreen from '../screens/RegistroProf'
@@ -24,6 +24,7 @@ export default class RegisterScreen extends React.Component {
   render() {
 
     return (
+      <ScrollView contentContainerStyle={{flex:1}} style={{flex:1}}>
       <View style={styles.container}>
 
         <View style={styles.buttonContainer}>
@@ -43,6 +44,7 @@ export default class RegisterScreen extends React.Component {
        
 
       </View>
+      </ScrollView>
     );
   }
 }

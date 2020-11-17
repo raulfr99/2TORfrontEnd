@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text,StyleSheet,FlatList,Button,TextInput, TouchableHighlight, Alert,KeyboardAvoidingView } from 'react-native';
 import { ScrollView, TouchableOpacity  } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements'
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class ChatMessages extends Component {
   constructor(props) {
@@ -53,12 +54,23 @@ export default class ChatMessages extends Component {
   }
 
   _renderItem = ({item,index}) =>{
+   
     
-
     return (
         <View>
-        {item.user === 0 ?(<View style={styles.containerAlumno}><Text style={styles.textAlumno}>{item.message}</Text></View>)
+          {this.state.user === 'false' ? (
+              <View>
+            {item.user === 1 ?(<View style={styles.containerAlumno}><Text style={styles.textAlumno}>{item.message}</Text></View>)
         :(<View style={styles.containerTutor}><Text style={styles.textTutor}>{item.message}</Text></View>)}
+        </View>
+          )
+          :(
+            <View>
+            {item.user === 0 ?(<View style={styles.containerAlumno}><Text style={styles.textAlumno}>{item.message}</Text></View>)
+        :(<View style={styles.containerTutor}><Text style={styles.textTutor}>{item.message}</Text></View>)}
+          </View>
+          )}
+        
         </View>
     )
   } 
@@ -66,15 +78,21 @@ export default class ChatMessages extends Component {
 
   render() {
       const {state} = this.props.navigation;
-       
+        
     return (
       <KeyboardAvoidingView style={styles.container}>
+        {this.state.user === 'false' ?(
+            <View style={styles.userTextContainer}><Text style={styles.userText}>{state.params.data.name_lastname_2tor}</Text></View>
+
+        ):(
+
+          <View style={styles.userTextContainer}><Text style={styles.userText}>{state.params.data.name_lastname_alumno}</Text></View>
+        )}
       
-        <View style={styles.userTextContainer}><Text style={styles.userText}>{state.params.data.name_lastname_alumno}</Text></View>
         <ScrollView  style={styles.scroll}contentContainerStyle={{flex: 1}}>
           
         <View style={styles.chatContainer}>
-        <FlatList inverted={true} style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
+        <FlatList  style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
        
        
        

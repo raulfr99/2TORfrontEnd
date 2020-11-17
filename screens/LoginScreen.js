@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text, TextInput, View, Image, ImageBackground, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, TextInput, View, Image, ImageBackground, StyleSheet, TouchableOpacity,KeyboardAvoidingView,SafeAreaView } from 'react-native';
 import { Icon, Button, Card } from 'react-native-elements'
 import { set } from 'react-native-reanimated';
 import Test from './Test';
@@ -54,7 +54,8 @@ export default class LoginScreen extends React.Component {
   
     let collection = {}
     collection.email = this.state.email,
-    collection.password = this.state.password
+    collection.password = this.state.password,
+    collection.ip = '201.165.132.61'
 
     console.log(collection)
 
@@ -129,9 +130,9 @@ export default class LoginScreen extends React.Component {
     }
     return (
      
-      <View style={styles.container}>
+     
+      <ScrollView contentContainerStyle={{flex:1,width:'100%',height:'100%'}}>
       
-
         <Text style={styles.textTitle}>Entrar</Text>
         <View style={styles.containerUserName} >
 
@@ -157,7 +158,8 @@ export default class LoginScreen extends React.Component {
         
           <Text style={styles.alertText} disabled={this.state.showAlert}  style={styleAlertText}>{text}</Text>
          
-      </View>
+          </ScrollView>
+          
      
 
     );
@@ -167,9 +169,7 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'stretch',
     width: '100%',
     height:'100%'
   },
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
 
   containerUserName: {
     height: 60,
-    flexDirection: 'row',
+    
     justifyContent: 'center',
     backgroundColor: 'transparent',
     marginLeft: '15%',
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   containerPassword: {
     height: 60,
-    flexDirection: 'row',
+    
     justifyContent: 'center',
     backgroundColor: 'transparent',
     marginLeft: '15%',
@@ -226,16 +226,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#22d48a',
     borderRadius: 5,
     alignItems: 'center',
-    paddingTop: '20%',
-    paddingBottom: 20,
+    padding:20,
     width: '280%',
     alignSelf: 'center'
   },
   loginText: {
     color: '#fff',
     textAlign: 'center',
-    paddingLeft: 10,
-    paddingRight: 10,
+    padding:5,
     fontWeight: 'bold',
     fontSize: 20
   },

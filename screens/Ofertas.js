@@ -44,7 +44,7 @@ export default class Ofertas extends Component {
     .then((resJson)=>{
       this.setState({
         
-        data:resJson.data_offer
+        data:resJson.offers
        
       })
     }).catch(error=>{
@@ -56,12 +56,20 @@ export default class Ofertas extends Component {
   _renderItem = ({item,index}) =>{
     console.log(item)
     return (
-      <TouchableOpacity style={styles.offer} onPress={()=>this.setModalVisible(true,item)} >
+      <View>
+      {item.status === 0 ?(
+        <TouchableOpacity style={styles.offer} onPress={()=>this.setModalVisible(true,item)} >
           <Text style={styles.offerText}>Oferta recibida</Text>
           
           <View style={styles.offerContainer}><Text style={styles.firstText}>Precio ofertado:</Text><Text style={styles.firstText}>Zona de clase:</Text></View>
           <View style={styles.offerContainer}><Text style={styles.secondText}>{item.price_hr} $</Text><Text style={styles.secondText}>{item.class_zone}</Text></View>
         </TouchableOpacity>
+
+      ):(
+        null
+
+      )}
+      </View>
     )
   } 
 
@@ -97,14 +105,13 @@ export default class Ofertas extends Component {
               <View style={styles.secondContainer}>
         <Text style={styles.textModalP}>{this.state.modalData == null ? ( null ) 
                      : ( this.state.modalData.price_hr )} / hr</Text>
-              <Text style={styles.textModalP}>+</Text>
-              <Text style={styles.textModalP}>2Tor fee: 13%</Text>
+              
+              
               <Text style={styles.textModalP}>Zona de Clase</Text>
               
               <Text style={styles.textModalZ}>{this.state.modalData == null ? ( null ) 
                      : ( this.state.modalData.class_zone )}</Text>
-             <Text style={styles.textModalP}>Total: </Text>
-             <Text style={styles.textModalP}>Cantidad</Text>
+             
               </View>
               
               <View style={styles.thirdContainer}>

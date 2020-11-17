@@ -13,20 +13,30 @@ export default class Chat extends Component {
       user:''
     };
   }
-  componentDidMount(){
+  async componentDidMount(){
     this.getUserData()
-    this.getChatData()
+    var state = await AsyncStorage.getItem('user')=='false'
+    if(state){
+   
+      this.getChatDataAlumno()
+    }
+    else{
+      
+      this.getChatDataTutor()
+      
+    }
+    
 
   }
   getUserData = async () =>{
     this.setState({id:await AsyncStorage.getItem('id')})
-    this.setState({id:await AsyncStorage.getItem('user')})
+    this.setState({user:await AsyncStorage.getItem('user')})
   }
-  
 
-  getChatData(){
+
+  getChatDataTutor(){
     const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/get-messages-2tor/'
-
+    
     let collection = {}
     collection.id_2tor = '5faa99aa5bb648523a97ffae'
 
@@ -48,22 +58,56 @@ export default class Chat extends Component {
     })
     
   }
+  getChatDataAlumno(){
+    const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/get-messages-alumno/'
+    
+    let collection = {}
+    collection.id_alumno = '5fab28f5a0a5f8dc14330de3'
+
+    fetch(endPoint, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(collection), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then((resJson)=>{
+      this.setState({
+        
+        fullData:resJson.messages
+       
+      })
+    }).catch(error=>{
+      this.setState({error,loading:false})
+    })
+    
+  }
+  
 
   _renderItem = ({item,index}) =>{
-    console.log(item)
+    
     return (
-      <View>
-      {this.state.user == 'false' ? (<Text>asd</Text>)
-      :(
-        <TouchableOpacity style={styles.cardHome} onPress={()=>this.props.navigation.navigate('ChatMessages',{data:item})}>
-        <Image style={styles.imgAvatar} source={{uri:item.profile_photo_2tor}}/>
-          <Text>{item.name_lastname_2tor}</Text>
-          
-          <Icon
-          name='forward' />
-        </TouchableOpacity>
-
-      )}
+      <View style={styles.container}>
+      {this.state.user === 'false' ? (
+      <TouchableOpacity style={styles.card} onPress={()=>this.props.navigation.navigate('ChatMessages',{data:item})}>
+      <Image style={styles.imgAvatar} source={{uri:item.profile_photo_2tor}}/>
+        <Text>{item.name_lastname_2tor}</Text>
+        
+        <Icon
+        name='forward' />
+      </TouchableOpacity>
+      )
+      : (
+        <TouchableOpacity style={styles.card} onPress={()=>this.props.navigation.navigate('ChatMessages',{data:item})}>
+      <Image style={styles.imgAvatar} source={{uri:item.profile_photo_alumno}}/>
+        <Text style={styles.nameText} >{item.name_lastname_alumno}</Text>
+        
+        <Icon
+        name='forward'
+         />
+      </TouchableOpacity>)}
+      
+      
       </View>
       
     )
@@ -73,7 +117,9 @@ export default class Chat extends Component {
     
     return (
       <View style={styles.container}>
+       
         <FlatList style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
+        
       </View>
     );
   }
@@ -92,7 +138,11 @@ const styles = StyleSheet.create({
   },
   cardsContainer:{
     width:'100%',
-    height:'25%'
+    height:'100%',
+   
+    justifyContent:'space-between',
+    
+    
   },
   imgAvatar:{
     width: 40,
@@ -100,15 +150,23 @@ const styles = StyleSheet.create({
     borderRadius: 150 / 2,
     overflow: "hidden",
 },
-cardHome:{
+card:{
   width:'100%',
- 
+  padding:15,
   backgroundColor:'white',
   alignContent:'center',
   justifyContent:'space-between',
   alignItems:'center',
-  flexDirection:'row'
+  flexDirection:'row',
+  borderBottomWidth:0.5,
+  borderBottomColor:'gray'
  
   
+},
+nameText:{
+  fontSize:15,
+  fontWeight:'bold',
+ 
 }
+
 })

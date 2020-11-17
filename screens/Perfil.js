@@ -9,6 +9,7 @@ export default class Perfil extends Component {
     this.state = {
       imagen_perfil:'',
       nombre:'',
+      buttonState:0
     };
   }
   componentDidMount(){
@@ -21,6 +22,7 @@ export default class Perfil extends Component {
   }
   test =() => {
     AsyncStorage.removeItem('token')
+    AsyncStorage.removeItem('user')
     this.props.navigation.navigate('Auth');
     
   }
@@ -42,14 +44,14 @@ export default class Perfil extends Component {
        
         <Text style={styles.textTitle}>Tu resumen:</Text>
         <View style={styles.perContainer}>
-         <TouchableOpacity style={styles.resButtons}>
-           <Text style={styles.textButton}>Clases</Text>
+         <TouchableOpacity style={(this.state.buttonState)===0 ? (styles.resButtons):(styles.resButtonsB)} onPress={()=>this.setState({buttonState:0})}>
+           <Text style={(this.state.buttonState)===0 ? (styles.textButton):(styles.textButtonB)}>Clases</Text>
          </TouchableOpacity>
-         <TouchableOpacity style={styles.resButtons} onPress={()=>this.props.navigation.navigate('Ofertas')} >
-           <Text style={styles.textButton}>Ofertas</Text>
+         <TouchableOpacity style={(this.state.buttonState)===2 ? (styles.resButtons):(styles.resButtonsB)} onPress={()=>{this.props.navigation.navigate('Ofertas');this.setState({buttonState:2})}} >
+           <Text style={(this.state.buttonState)===2 ? (styles.textButton):(styles.textButtonB)}>Ofertas</Text>
          </TouchableOpacity>
-         <TouchableOpacity style={styles.resButtons}>
-           <Text style={styles.textButton}>Cartera</Text>
+         <TouchableOpacity style={(this.state.buttonState)===1 ? (styles.resButtons):(styles.resButtonsB)} onPress={()=>this.setState({buttonState:1})}>
+           <Text style={(this.state.buttonState)===1 ? (styles.textButton):(styles.textButtonB)}>Cartera</Text>
          </TouchableOpacity>
          
         </View>
@@ -120,5 +122,18 @@ const styles = StyleSheet.create({
       height:'100%',
       backgroundColor:'#40E29F',
       borderRadius:5
-    }
+    },
+    textButtonB:{
+      fontSize:15,
+      
+      alignSelf:'center',
+      padding:15
+
+    },
+    resButtonsB:{
+      width:'33%',
+      height:'100%',
+      backgroundColor:'white',
+      borderRadius:5
+    },
   })

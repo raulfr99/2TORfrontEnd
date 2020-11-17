@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Text,TextInput,View, Image,ImageBackground, StyleSheet,TouchableOpacity,Alert,TouchableHighlight,SafeAreaView} from 'react-native';
+import { Text,TextInput,View, Image,ImageBackground, StyleSheet,TouchableOpacity,Alert,TouchableHighlight,SafeAreaView,KeyboardAvoidingView} from 'react-native';
 import { Icon,Button,Card, ThemeConsumer } from 'react-native-elements'
 import { Avatar, Accessory } from 'react-native-elements';
 import LoginScreen from '../screens/LoginScreen';
@@ -46,8 +46,9 @@ async getStorageValue(){
 
     return (
       
-       <ScrollView  style={styles.scroll}contentContainerStyle={{flex: 1}}>
-         <ImageBackground  source={imgbg} resizeMode="stretch"style={styles.imgBack}>
+      <ScrollView contentContainerStyle={{flex:1}}>
+         <ImageBackground  source={imgbg} resizeMode='cover' style={styles.imgBack}>
+          
           <Avatar
               style={styles.avatar}
               rounded
@@ -75,10 +76,10 @@ async getStorageValue(){
             {this.state.cardstate == 0 ? ( <Text style={styles.recuperarText}onPress={()=>this.props.navigation.navigate('Forgot')}  >Recuperar Password</Text> ) 
          : ( null )}
            
-             
+           
            </ImageBackground>  
            </ScrollView>
-        
+          
     );
   }
 }
@@ -87,8 +88,7 @@ async getStorageValue(){
 const styles = StyleSheet.create({
   container:{
    flex:1,
-    width:'100%',
-    height:'100%',
+  
    
   },
   
@@ -172,7 +172,12 @@ const styles = StyleSheet.create({
     fontWeight:'bold'
   },
   imgBack:{
-    flex:1,
+    flex: 1,
+    flexDirection:'column',
+    resizeMode: "cover",
+    justifyContent: "center",
+    height:'100%'
+   
    
   },
   recuperarText:{
