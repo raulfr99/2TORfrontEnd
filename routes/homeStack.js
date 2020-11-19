@@ -1,5 +1,5 @@
 import {createStackNavigator} from 'react-navigation-stack';
-import { Text,View,StyleSheet,Button } from 'react-native';
+import { Text,View,StyleSheet,Image } from 'react-native';
 import { Icon } from 'react-native-elements'
 import * as React from 'react';
 import {createAppContainer,createSwitchNavigator} from 'react-navigation';
@@ -99,7 +99,13 @@ const styles = StyleSheet.create({
     alignContent: 'center',
   },
   icon:{
-    padding:20
+    padding:20,
+   
+  },
+  imageIcon:{
+    width:30,
+    height:30,
+    alignSelf:'center'
   }
 });
 //
@@ -112,12 +118,19 @@ const AppStack = createStackNavigator({
         title: '2TOR',
         headerStyle: {
           backgroundColor: 'white',
+         
+         
           
         },
         headerTitleStyle: {
           color: 'gray',
+          justifyContent: 'center',
         },
-        headerRight: (<Icon style={styles.icon} onPress={() => {navigation.navigate('Search')}} name="search"/>),
+        headerRight: (<Icon onPress={() => {navigation.navigate('Search')}} name="search"/>),
+        headerRightContainerStyle:{padding:20},
+        headerTitle:(<Image source={require('../assets/logo.png')} style={styles.imageIcon}/>),
+        headerTitleContainerStyle: {  right:0 }
+       
         
         
       }),

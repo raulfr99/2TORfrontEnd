@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text,Button,StyleSheet,Alert,ScrollView,TouchableOpacity,Image} from 'react-native';
+import { View, Text,Button,StyleSheet,Alert,ScrollView,TouchableOpacity,Image,FlatList} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Card, ListItem, Icon } from 'react-native-elements'
 
@@ -9,7 +9,9 @@ export default class Home extends Component {
     this.state = {
       user:'',
       id:'',
-      searchesCount:''
+      searchesCount:'',
+      busquedaReciente:'',
+      fullData:[]
     };
   }
   async componentDidMount(){
@@ -25,6 +27,13 @@ export default class Home extends Component {
   getProfileData = async () => {
     this.setState({user: await AsyncStorage.getItem('user')})
     this.setState({id: await AsyncStorage.getItem('id')})
+    if(await AsyncStorage.getItem('busquedaReciente')==null){
+
+    }
+    else{
+      this.getData( await AsyncStorage.getItem('busquedaReciente'))
+    }
+   
     
     
   }
@@ -52,6 +61,45 @@ export default class Home extends Component {
     })
 
   }
+
+  getData =  (search) =>{
+    
+    const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/busqueda/'
+
+    let collection = {}
+    collection.search = search,
+    collection.api_data = 1
+    
+    fetch(endPoint, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(collection), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then((resJson)=>{
+      this.setState({
+        
+        fullData:resJson.api_data
+      })
+    }).catch(error=>{
+      this.setState({error,loading:false})
+    })
+    console.log('x:'+this.state.data)
+    
+  }
+
+  _renderItem = ({item,index}) =>{
+    console.log(item)
+    return (
+      <TouchableOpacity style={styles.cardHome}>
+         <Image style={styles.imgAvatar} source={{uri:item.profile_photo}}/>
+           <Text>{item.name_lastname}</Text>
+           
+    <Text style={{color:'gray'}}>{item.tags}</Text>
+         </TouchableOpacity>
+    )
+  } 
   render() {
     
     return (
@@ -63,16 +111,18 @@ export default class Home extends Component {
        
        
         {this.state.user === 'false' ?
-         (<ScrollView horizontal={true}>
+
+         (
+         <View>
             <Text style={styles.textTitle}>Para Ti:</Text>
-         <TouchableOpacity style={styles.cardHome}>
-         <Image style={styles.imgAvatar} source={require('../assets/logo.png')}/>
-           <Text>Raul Flores</Text>
-           
-           <Text style={{color:'gray'}}>Ingles</Text>
-         </TouchableOpacity>
          
-         </ScrollView>  
+         <FlatList style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}
+         horizontal={true}
+         />
+         
+         
+         
+         </View>
          )
         : (
         <View>
@@ -124,7 +174,15 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     alignItems:'center',
     padding:20,
-    margin:20
+    margin:20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   textSub:{
     marginLeft:'6%',
@@ -136,7 +194,15 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
     borderRadius:5,
     width:'90%',
-    marginTop:'5%'
+    marginTop:'5%',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
 
   },
   textSearch:{

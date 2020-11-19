@@ -18,13 +18,14 @@ export default class Chat extends Component {
     var state = await AsyncStorage.getItem('user')=='false'
     if(state){
    
-      this.getChatDataAlumno()
+      this.getChatDataAlumno(await AsyncStorage.getItem('id'))
     }
     else{
       
-      this.getChatDataTutor()
+      this.getChatDataTutor(await AsyncStorage.getItem('id'))
       
     }
+    this.componentDidMount()
     
 
   }
@@ -34,11 +35,11 @@ export default class Chat extends Component {
   }
 
 
-  getChatDataTutor(){
+  getChatDataTutor(id){
     const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/get-messages-2tor/'
     
     let collection = {}
-    collection.id_2tor = '5faa99aa5bb648523a97ffae'
+    collection.id_2tor = id
 
     fetch(endPoint, {
       method: 'POST', // or 'PUT'
@@ -58,11 +59,12 @@ export default class Chat extends Component {
     })
     
   }
-  getChatDataAlumno(){
+  getChatDataAlumno(id){
+    
     const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/get-messages-alumno/'
     
     let collection = {}
-    collection.id_alumno = '5fab28f5a0a5f8dc14330de3'
+    collection.id_alumno = id
 
     fetch(endPoint, {
       method: 'POST', // or 'PUT'
@@ -118,7 +120,7 @@ export default class Chat extends Component {
     return (
       <View style={styles.container}>
        
-        <FlatList style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
+        <FlatList style={styles.container} data={this.state.fullData}  keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
         
       </View>
     );
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     width:'100%',
     height:'100%',
     flex:1,
-    backgroundColor:'white'
+    
   },
   textTitle:{
     color:'gray',
@@ -159,7 +161,15 @@ card:{
   alignItems:'center',
   flexDirection:'row',
   borderBottomWidth:0.5,
-  borderBottomColor:'gray'
+  borderBottomColor:'gray',
+  shadowColor: "#000",
+  shadowOffset: {
+    width: 0,
+    height: 2,
+  },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
  
   
 },

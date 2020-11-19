@@ -19,7 +19,9 @@ export default class StepsScreen extends Component {
       image:'',
       name:'',
       email:'',
-      password:''
+      password:'',
+      imgPicker:'',
+      image_identificacion:null,
     };
   
 
@@ -32,7 +34,18 @@ export default class StepsScreen extends Component {
       return;
     }
     let picker = await ImagePicker.launchImageLibraryAsync()
-    console.log(picker)
+    this.setState({imgPicker:picker.uri})
+    let localUri = picker.uri;
+    let filename = localUri.split('/').pop();
+    let match = /\.(\w+)$/.exec(filename);
+    let type = match ? `image/${match[1]}` : `image`;
+    let name = `${Math.floor((Math.random() * 100000000) + 1)+`.`+match[1]}`;
+    this.setState({imageUri:localUri})
+    this.setState({fileName:name})
+    this.setState({type:type})
+    this.state.image_identificacion = {'imageUri':localUri,'fileName':name,'type':type}
+  
+    
   }
 
   render() {
@@ -48,26 +61,38 @@ export default class StepsScreen extends Component {
       <View style={styles.root}>
           
         <Steps initialValues={{
-            username:'',
-            email:'',
-            avatar:''
+            descripcion:'',
+            tags:'',
+            identificacion:'',
+            cedula:'',
+            name:state.params.data.name,
+            email:state.params.data.email,
+            password:state.params.data.password,
+            image_profile:state.params.data.image_profile,
         }}>
             
            <Steps.Step>
                {({onChangeValue,values})=>(
                 <View style={styles.container}>
+                  <Text style={styles.textTitle}>hola{state.params.data.name}</Text>
                   <Text style={styles.textTitle}>Descripcion</Text>
                   <TextInput style={styles.inputBox} 
-                  placeholder="Descripcion. Un poco sobre de ti...">
+                  placeholder="Descripcion. Un poco sobre de ti..."
+                  onChangeText={text=>onChangeValue('description',text)} 
+                  value={values.description}
+                  >
                   </TextInput>
                   <Text style={styles.textTitle}>Tags</Text>
                   <TextInput style={styles.inputBox} 
-                  placeholder="Temas, materias, examenes. Que vaya a ensenar.">
+                  placeholder="Temas, materias, examenes. Que vaya a ensenar."
+                  onChangeText={text=>onChangeValue('tags',text)} 
+                  value={values.tags}
+                  >
                   </TextInput>
                <TextInput 
                onChangeText={text=>onChangeValue('username',text)} 
                placeholder="Usuario: "
-               value={values.username}
+               value={values.descripcion}
                />
                </View>
                )}
@@ -78,7 +103,9 @@ export default class StepsScreen extends Component {
             <Steps.Step>
                 {({onChangeValue,values})=>(
              <View style={styles.container}>
-               <TouchableOpacity style={styles.photoContainer} onPress={this.openImg}>
+               <TouchableOpacity style={styles.photoContainer} onPress={this.openImg}
+                 
+               >
                <Icon name='photo-camera' style={styles.icon}  size={60} />
                <View>
                <Text style={styles.titleText}>Identificacion</Text>
@@ -90,9 +117,9 @@ export default class StepsScreen extends Component {
               <Text style={styles.subText}>Requerido</Text>
               <TextInput 
               style={styles.cedulaInput}
-            onChangeText={text=>onChangeValue('avatar',text)} 
+            onChangeText={text=>{onChangeValue('cedula',text);onChangeValue('identificacion',this.state.image_identificacion)}} 
             placeholder="Introduce tu numero unico de cedula: "
-            value={values.avatar}
+            value={values.cedula}
             />
               </View>
            

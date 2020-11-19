@@ -1,6 +1,9 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component } from 'react';
 import { View, Text,StyleSheet,TouchableOpacity,Image,FlatList,Alert,Modal,TouchableHighlight} from 'react-native';
 import { SearchBar,Button, ThemeConsumer} from 'react-native-elements';
+import { Icon } from 'react-native-elements'
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Search extends Component {
   constructor(props) {
@@ -12,12 +15,23 @@ export default class Search extends Component {
       error:null,
       search:'',
       modalVisible: false,
-      modalData:[]
+      modalData:[],
+      idUser:'',
+      valueSearch:''
     };
   }
   /*componentDidMount(){
     this.getData()
   } */
+  async componentDidMount(){
+    if(await AsyncStorage.getItem('user')==='false'){
+     this.setState({idUser:await AsyncStorage.getItem('id')})
+    }
+    else{
+
+    }
+   
+  }
   setModalVisible = (visible,item) => {
     this.setState({modalData:item})
     this.setState({ modalVisible: visible });
@@ -25,9 +39,10 @@ export default class Search extends Component {
 
   sendSearch = (id) => {
     console.log(id)
-    const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/count-searches/'
+    const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/save-search/'
     let collection = {}
-    collection.id = id
+    collection.id_2tor = id,
+    collection.id_alumno = this.state.idUser,
     fetch(endPoint, {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(collection), // data can be `string` or {object}!
@@ -44,10 +59,10 @@ export default class Search extends Component {
   }
   
 
-  getData =  (search) =>{
+   getData =  (search) =>{
     this.setState({loading:true})
     this.setState({search:search})
-
+    AsyncStorage.setItem('busquedaReciente',search)
     const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/busqueda/'
 
     let collection = {}
@@ -92,19 +107,27 @@ export default class Search extends Component {
   render() {
     const { modalVisible } = this.state;
     return (
+      <ScrollView contentContainerStyle={{flex:1}}>
         <View style={styles.container}>
+          <View style={styles.searchContainer}>
+
+          
            <SearchBar
         platform="android"
         searchIcon={false}
         placeholder="Que buscas?"
         inputStyle={styles.search}
-        onChangeText={(value)=>this.getData(value)}
+        onChangeText={(value)=>this.setState({valueSearch:value})}
         autoCorrect={false}
-        value={this.state.search}
-        
+        value={this.state.valueSearch}
+        containerStyle={styles.searchCont}
         
       />
-      
+      <TouchableOpacity style={styles.searchButton} onPress={()=>this.getData(this.state.valueSearch)}>
+        <Text style={styles.searchButtonText}>Buscar</Text>
+        </TouchableOpacity>
+     
+      </View>
         <FlatList style={styles.container} data={this.state.data} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
        
 
@@ -134,6 +157,7 @@ export default class Search extends Component {
 
         
         </View>
+        </ScrollView>
       
     );
   }
@@ -148,8 +172,31 @@ const styles = StyleSheet.create({
        
     },
     search:{
-        backgroundColor:'white'
+      
+        alignSelf:'center',
+        height:'10%'
     },
+    searchCont:{
+      
+      width:'80%',
+     
+      alignSelf:'center',
+  },
+  searchButton:{
+    backgroundColor:'#40E29F',
+    width:'20%',
+    height:'100%',
+    justifyContent: 'center',
+    
+
+  },
+  searchButtonText:{
+    textAlign:'center',
+    color:'white',
+    padding:8,
+    fontWeight:'bold',
+    
+  },
     textList:{
         padding:25,
         fontSize:15,
@@ -157,28 +204,34 @@ const styles = StyleSheet.create({
         
     },
     card:{
-      backgroundColor:'#fff',
+      backgroundColor:'#FFF',
       marginBottom:10,
       marginLeft:'2%',
       width:'96%',
-      shadowColor:'#000',
-      shadowOpacity:1,
-      shadowOffset:{
-        width:3,
-        height:3
-      }
+      borderRadius:10,
+      borderColor:'#40E29F',
+      borderWidth:0.5,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5,
     },
     cardTitle:{
       fontSize:18,
       
+      
     },
     cardDes:{
       fontSize:15,
-      
+     
     },
     cardTag:{
       fontSize:15,
-
+     
     },
     textSub:{
       fontSize:10,
@@ -187,7 +240,8 @@ const styles = StyleSheet.create({
     cardImage:{
       width:'100%',
       height:200,
-      resizeMode:'cover'
+      resizeMode:'cover',
+    
     },
     centeredView: {
       flex: 1,
@@ -230,5 +284,13 @@ const styles = StyleSheet.create({
     cardContainer:{
       alignContent:'center',
       alignItems:'center'
+    },
+    searchContainer:{
+     width:'100%',
+     justifyContent:'space-around',
+     flexDirection:'row',
+     height:'10%',
+     alignItems:'center',
+     alignContent:'center'
     }
 })

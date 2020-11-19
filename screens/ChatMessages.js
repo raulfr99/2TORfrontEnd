@@ -1,24 +1,34 @@
-import React, { Component } from 'react';
-import { View, Text,StyleSheet,FlatList,Button,TextInput, TouchableHighlight, Alert,KeyboardAvoidingView } from 'react-native';
-import { ScrollView, TouchableOpacity  } from 'react-native-gesture-handler';
+// @refresh state
+
+import React, { Component,useState,useEffect } from 'react';
+import {StatusBar} from 'expo-status-bar'
+import { View, Text,StyleSheet,FlatList,Button,TextInput, TouchableHighlight, Alert,KeyboardAvoidingView,YellowBox,ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-community/async-storage';
-
 export default class ChatMessages extends Component {
   constructor(props) {
     super(props);
     this.state = {
         data:null,
         fullData:[],
-        user:''
+        extraData:[],
+        user:'',
+        textMsg:''
     };
   }
-  componentDidMount(){
-    this.getProfileData()
-     this.getMessages(this.props.navigation.state.params)
-     
+  async componentDidMount(){
+    
+   await this.getProfileData()
+   this.getMessages(this.props.navigation.state.params)
+   this.getMessagesExtra(this.props.navigation.state.params)
+  
 
+   this.componentDidMount()
+    
+    
+ 
   }
+  
   
  saveData =  () =>{
      this.setState({data:this.props.navigation.state.params})
@@ -30,6 +40,7 @@ export default class ChatMessages extends Component {
   }
  
   getMessages(data){
+    
       const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/get-data-messages/'
        
       let collection = {}
@@ -52,6 +63,56 @@ export default class ChatMessages extends Component {
       })
       
   }
+
+  getMessagesExtra(data){
+    
+    const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/get-data-messages/'
+     
+    let collection = {}
+    collection.id_2tor = data.data.id_2tor,
+    collection.id_alumno = data.data.id_alumno
+
+    fetch(endPoint, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(collection), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then((resJson)=>{
+      this.setState({
+         extraData:resJson.datamessages
+      })
+    }).catch(error=>{
+      this.setState({error,loading:false})
+    })
+    
+}
+sendMessageAlumno(){
+ 
+  const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/create-messages-alumno/'
+   
+  let collection = {}
+  collection.id_2tor = this.props.navigation.state.params.data.id_2tor,
+  collection.id_alumno = this.props.navigation.state.params.data.alumno,
+  collection.message = 'Hola'
+
+  fetch(endPoint, {
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify(collection), // data can be `string` or {object}!
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(res => res.json())
+  .then((resJson)=>{
+    
+       console.log(resJson)
+    
+  }).catch(error=>{
+    this.setState({error,loading:false})
+  })
+  
+}
 
   _renderItem = ({item,index}) =>{
    
@@ -78,7 +139,7 @@ export default class ChatMessages extends Component {
 
   render() {
       const {state} = this.props.navigation;
-        
+      
     return (
       <KeyboardAvoidingView style={styles.container}>
         {this.state.user === 'false' ?(
@@ -92,7 +153,7 @@ export default class ChatMessages extends Component {
         <ScrollView  style={styles.scroll}contentContainerStyle={{flex: 1}}>
           
         <View style={styles.chatContainer}>
-        <FlatList  style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
+        <FlatList    extraData={this.state.extraData}  style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
        
        
        
@@ -100,12 +161,16 @@ export default class ChatMessages extends Component {
         </ScrollView>
         <View style={styles.inputContainer}>
       
-      <TextInput placeholderTextColor='gray' style={styles.msgInput} placeholder='Escribe un mensaje...'></TextInput>
+      <TextInput placeholderTextColor='gray' style={styles.msgInput} placeholder='Escribe un mensaje...'
+      onChangeText={(value)=>this.setState({textMsg:value})} value={this.state.textMsg}
+      >
+
+      </TextInput>
       <Icon
         name='send' 
         size={30}
         iconStyle={styles.sendButton}
-        onPress={()=>Alert.alert('Hola')}
+        onPress={()=>this.sendMessageAlumno()}
         />
 
       </View>
@@ -113,6 +178,7 @@ export default class ChatMessages extends Component {
     );
   }
 }
+
 const styles = StyleSheet.create({
 
     container:{

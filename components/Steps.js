@@ -40,7 +40,72 @@ class Steps extends PureComponent {
 
     _onSubmit = () => {
         
-        Alert.alert(JSON.stringify(this.state.values))
+    
+        const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/register-2tores/'
+        
+      
+
+        const data = new FormData();
+        data.append("email",this.state.values.email)
+        data.append("name_lastname",this.state.values.name)
+        data.append("password",this.state.values.password)
+        data.append("profile_photo",this.state.values.image_profile)
+        data.append("description",this.state.values.description)
+        data.append("tags",this.state.values.tags)
+        data.append("identificacion",this.state.values.identificacion)
+        data.append("cedula",this.state.values.cedula)
+
+        fetch(endPoint, {
+            method: 'POST', 
+            body: data, 
+            headers:{
+               "Content-Type": 'multipart/form-data',
+            }
+          }).then(res => res.json().then(data => ({
+            data: data,
+            status: res.status
+          }))
+            .catch(error => console.error('Error:', error))
+            .then(response => {
+            
+              if (response.status == '201') {
+                Alert.alert(response.data.success)
+                
+              }
+              else if (response.status == '403') {
+                alert(response.data.detail)
+              }
+              else if (response.status == '400') {
+                if(response.data.email && response.data.name_lastname){
+                  Alert.alert(''+response.data.email+'\n'+response.data.name_lastname)
+                  this.state.state=(response.data.email+'\n'+response.data.name_lastname)
+                 
+                }
+                else if(response.data.email){
+                 Alert.alert(''+response.data.email)
+                  this.state.state=(response.data.errors.email)
+                
+                  
+                }
+                else if(response.data.name_lastname){
+                  Alert.alert(''+response.data.name_lastname)
+                  this.state.state=(response.data.errors.name_lastname)
+                  
+                }
+                else if(response.data.password){
+                  Alert.alert(''+response.data.password)
+                  this.state.state=(response.data.errors.password)
+                  
+                }
+               
+               
+               
+              }
+             
+              
+        
+            }));
+
     }
     render() {
         return (

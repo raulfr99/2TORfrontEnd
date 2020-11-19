@@ -91,7 +91,7 @@ openImg = async()=>{
             style={styles.textInput} onChangeText={(value)=>this.setState({password:value})} name="password" secureTextEntry={true} />
         </View>
       
-        {/* 
+       
         <View style={styles.containerSignIn}>
           <TouchableOpacity
             style={styles.buttonLogin}
@@ -100,32 +100,6 @@ openImg = async()=>{
             <Text style={styles.loginText}>Siguente</Text>
           </TouchableOpacity>
         </View>
-        */}
-        <View style={styles.containerSignIn}>
-          <TouchableOpacity
-            style={styles.buttonLogin}
-            onPress={() => this.submit()}
-            underlayColor='#fff'>
-            <Text style={styles.loginText}>Siguente</Text>
-          </TouchableOpacity>
-        </View>
-        {/* 
-        <View style={styles.stepContainer}>
-          
-          <View style={styles.step}>
-          <TouchableOpacity style={styles.buttonStep}></TouchableOpacity>
-          </View>
-          <View style={styles.step}>
-          <TouchableOpacity style={styles.buttonStep}></TouchableOpacity>
-          </View>
-          <View style={styles.step}>
-          <TouchableOpacity style={styles.buttonStep}></TouchableOpacity>
-          </View>
-          <View style={styles.step}>
-          <TouchableOpacity style={styles.buttonStep}></TouchableOpacity>
-          </View>
-        </View>
-  */}
 
 
       </View>

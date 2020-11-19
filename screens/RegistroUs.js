@@ -69,26 +69,21 @@ openImg = async()=>{
   submit(){
     const data = new FormData();
     data.append("email",this.state.email)
-    data.append("username",this.state.name)
+    data.append("name_lastname",this.state.name)
     data.append("password",this.state.password)
-    data.append("image_profile",{uri:this.state.imageUri,name:this.state.fileName,type:this.state.type})
-   //data.append("image_profile",this.state.image_profile)
-  let collection={}
-  collection.username=this.state.name,
-  collection.email=this.state.email,
-  collection.password=this.state.password
+    data.append("profile_photo",{uri:this.state.imageUri,name:this.state.fileName,type:this.state.type})
+   
+
   
   console.log(data)
   
-  var url = 'http://2tor-env.eba-ycfehjvd.us-west-1.elasticbeanstalk.com/auth/register-alumnos/';
+  var url = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/register-alumnos/';
 
   fetch(url, {
     method: 'POST', 
     body: data, 
     headers:{
       "Content-Type": 'multipart/form-data',
-      
-
     }
   }).then(res => res.json().then(data => ({
     data: data,
@@ -96,44 +91,35 @@ openImg = async()=>{
   }))
     .catch(error => console.error('Error:', error))
     .then(response => {
-      console.log(response.status, response.data)
+    
       if (response.status == '201') {
-        this.state.state=('Se ha enviado un correo de confirmacion a:'+'\n'+response.data.email)
-        Alert.alert(
-          "Registrado",
-          ('Se ha enviado un correo de confirmacion a:'+'\n'+response.data.email),
-          [
-            {
-              text: "Aceptar",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel"
-            },
-            { text: "OK", onPress: () => console.log("OK Presse") }
-          ],
-          { cancelable: false }
-        );
+        Alert.alert(response.data.success)
         
       }
       else if (response.status == '403') {
         alert(response.data.detail)
       }
-      else if (response.status == '400' && response.data.errors) {
-        if(response.data.errors.email && response.data.errors.username){
-          this.state.state=(response.data.errors.email+'\n'+response.data.errors.username)
-          this.showAlert()
+      else if (response.status == '400') {
+        if(response.data.email && response.data.name_lastname){
+          Alert.alert(''+response.data.email+'\n'+response.data.name_lastname)
+          this.state.state=(response.data.email+'\n'+response.data.name_lastname)
+         
         }
-        else if(response.data.errors.email){
+        else if(response.data.email){
+         Alert.alert(''+response.data.email)
           this.state.state=(response.data.errors.email)
         
-          this.showAlert()
+          
         }
-        else if(response.data.errors.username){
-          this.state.state=(response.data.errors.username)
-          this.showAlert()
+        else if(response.data.name_lastname){
+          Alert.alert(''+response.data.name_lastname)
+          this.state.state=(response.data.errors.name_lastname)
+          
         }
-        else if(response.data.errors.password){
+        else if(response.data.password){
+          Alert.alert(''+response.data.password)
           this.state.state=(response.data.errors.password)
-          this.showAlert()
+          
         }
        
        

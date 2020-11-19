@@ -1,25 +1,76 @@
 import React, { Component } from 'react';
 import { View, Text,StyleSheet,Image,Button,TouchableOpacity,Modal,TouchableHighlight,TextInput, Alert} from 'react-native';
 import { Icon} from 'react-native-elements'
-
+import AsyncStorage from '@react-native-community/async-storage';
 export default class Ofertar extends Component {
   constructor(props) {
     super(props);
     this.state = {
         modalVisible: false,
         price:'',
-        location:''
+        location:'',
+        id:'',
+        userCalification:'',
+        min:'',
+        max:''
     };
   }
-
+  async componentDidMount(){
+    await this.getProfileData()
+  }
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible });
+  }
+  getProfileData = async () => {
+    
+    this.setState({user: await AsyncStorage.getItem('user')})
+    this.setState({id: await AsyncStorage.getItem('id')})
+    const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/get-calification-2tor/'
+    let collection = {}
+    collection.id_2tor = this.props.navigation.state.params.data.id,
+    fetch(endPoint, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(collection), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then((resJson)=>{
+      this.setState({
+          userCalification:resJson.search.promedio
+      })
+      
+    }).catch(error=>{
+      this.setState({error,loading:false})
+    })
+     
+    const url = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/price-2tor/'
+    let collectionPrice = {}
+    collectionPrice.id_2tor = this.props.navigation.state.params.data.id,
+    fetch(url, {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(collectionPrice), // data can be `string` or {object}!
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(res => res.json())
+    .then((resJson)=>{
+      this.setState({
+        min:resJson.max,
+        max:resJson.min
+      })
+      
+    }).catch(error=>{
+      this.setState({error,loading:false})
+    })
+    
   }
   
   sendOffer = (id) => {
     const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/create-offer/'
     let collection = {}
     collection.id_2tor = id,
+    collection.id_alumno=this.state.id,
     collection.price_hr = this.state.price,
     collection.class_zone = this.state.location
     fetch(endPoint, {
@@ -30,11 +81,14 @@ export default class Ofertar extends Component {
       }
     }).then(res => res.json())
     .then((resJson)=>{
-      console.log('Oferta creada: '+resJson)
+      Alert.alert(''+resJson.detail)
     }).catch(error=>{
       this.setState({error,loading:false})
     })
   }
+
+  
+  
 
   render() {
     const {state} = this.props.navigation;
@@ -50,8 +104,12 @@ export default class Ofertar extends Component {
           </View>
         <Text style={styles.textTag}>{state.params.data.tags} </Text>
         <View style={styles.titleContainer}>
-              <Text >Califiacion </Text>
-              <Text >Precio Prom. </Text>
+                <Icon
+                name='star-border'
+                size={35}
+                 />
+              <Text style={styles.textPromedio} >{this.state.userCalification} </Text>
+              <Text style={styles.textCantidad} >${this.state.max} - ${this.state.min} / hr</Text>
           </View>
           <View style={styles.titleContainer}>
               <Text style={styles.textTitle} >Tags: </Text>
@@ -118,14 +176,26 @@ const styles = StyleSheet.create({
         width:'100%',
         height:'100%',
         flex:1,
-        backgroundColor:'white'
+        
     },
     titleContainer:{
         flexDirection:'row',
         alignContent:'flex-start',
         width:'100%',
-        justifyContent:'space-between',
+        justifyContent:'space-around',
         marginTop:'8%'
+    },
+    textPromedio:{
+      fontSize:18,
+      color:'gray',
+      left:0,
+      marginLeft:'-13%',
+      alignSelf:'center'
+    },
+    textCantidad:{
+      fontSize:13,
+      fontWeight:'bold',
+      alignSelf:'center'
     },
     imgAvatar:{
         width: 60,
@@ -133,7 +203,15 @@ const styles = StyleSheet.create({
         borderRadius: 150 / 2,
         overflow: "hidden",
         
-        marginRight:'8%'
+        marginRight:'8%',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     textTitle:{
         color:'black',
@@ -156,7 +234,18 @@ const styles = StyleSheet.create({
     },
     textTags:{
         fontSize:15,
+        borderRadius:5,
         fontWeight:'normal',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        padding:5,
+        backgroundColor:'white'
     },
     textAc:{
         color:'black',
@@ -167,8 +256,18 @@ const styles = StyleSheet.create({
     textDes:{
         fontSize:12,
         alignSelf:'auto',
-       
+        borderRadius:5,
         marginTop:'3%',
+        padding:5,
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        backgroundColor:'white'
         
     },
     button:{
@@ -177,7 +276,15 @@ const styles = StyleSheet.create({
         backgroundColor:'#40E29F',
         borderRadius:15,
         alignSelf:'center',
-        marginTop:'5%'
+        marginTop:'5%',
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     textButton:{
         alignSelf:'center',
