@@ -1,10 +1,11 @@
-// @refresh state
+
 
 import React, { Component,useState,useEffect } from 'react';
 import {StatusBar} from 'expo-status-bar'
 import { View, Text,StyleSheet,FlatList,Button,TextInput, TouchableHighlight, Alert,KeyboardAvoidingView,YellowBox,ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements'
 import AsyncStorage from '@react-native-community/async-storage';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 export default class ChatMessages extends Component {
   constructor(props) {
     super(props);
@@ -88,14 +89,21 @@ export default class ChatMessages extends Component {
     })
     
 }
-sendMessageAlumno(){
+sendMessage(data){
+  var endPoint;
+  if(this.state.user=='false'){
+     endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/create-messages-alumno/'
+  }
+  else{
+    endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/create-messages-2tor/'
+  }
+  
  
-  const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/create-messages-alumno/'
-   
+  
   let collection = {}
-  collection.id_2tor = this.props.navigation.state.params.data.id_2tor,
-  collection.id_alumno = this.props.navigation.state.params.data.alumno,
-  collection.message = 'Hola'
+  collection.id_2tor = data.data.id_2tor,
+  collection.id_alumno =  data.data.id_alumno,
+  collection.message = this.state.textMsg
 
   fetch(endPoint, {
     method: 'POST', // or 'PUT'
@@ -150,10 +158,23 @@ sendMessageAlumno(){
           <View style={styles.userTextContainer}><Text style={styles.userText}>{state.params.data.name_lastname_alumno}</Text></View>
         )}
       
-        <ScrollView  style={styles.scroll}contentContainerStyle={{flex: 1}}>
+        <ScrollView  
+        
+        style={styles.scroll}contentContainerStyle={{flex: 1}}>
           
         <View style={styles.chatContainer}>
-        <FlatList    extraData={this.state.extraData}  style={styles.container} data={this.state.fullData} keyExtractor={(item,index)=>index.toString()} renderItem={this._renderItem}/>
+        <FlatList    
+        extraData={this.state.extraData} 
+        style={styles.container} 
+        data={this.state.fullData} 
+        keyExtractor={(item,index)=>index.toString()}
+        renderItem={this._renderItem}
+        ref={ (ref) => { this.myFlatListRef = ref } }
+        onContentSizeChange={ () => { this.myFlatListRef.scrollToEnd({animated:true}) } }
+        onLayout={ () => { this.myFlatListRef.scrollToEnd({animated:true}) } }
+       
+       
+         />
        
        
        
@@ -163,16 +184,18 @@ sendMessageAlumno(){
       
       <TextInput placeholderTextColor='gray' style={styles.msgInput} placeholder='Escribe un mensaje...'
       onChangeText={(value)=>this.setState({textMsg:value})} value={this.state.textMsg}
+    
       >
 
       </TextInput>
+      <TouchableOpacity onPress={()=>this.sendMessage(this.props.navigation.state.params)} >
       <Icon
         name='send' 
         size={30}
         iconStyle={styles.sendButton}
-        onPress={()=>this.sendMessageAlumno()}
+        
         />
-
+      </TouchableOpacity>
       </View>
       </KeyboardAvoidingView>
     );
@@ -196,8 +219,7 @@ const styles = StyleSheet.create({
       width:'100%',
       height:'8%',
       backgroundColor:'white',
-      borderBottomWidth:0.5,
-      borderBottomColor:'gray',
+     
       justifyContent: 'center',
       opacity:0.9
       

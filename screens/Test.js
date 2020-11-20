@@ -19,28 +19,8 @@ export default class Test extends React.Component {
      cardstate:0,
      loggedIn
    }
-   //this.getStorageValue()
- 
-    
 }
    
-
-/*
-async getStorageValue(){
-   this.token =  await AsyncStorage.getItem('token');
-    //console.log('ala: '+this.token);
-     
-    if(this.token==null){
-       this.setState({loggedIn :false})
-    }
-    else {
-      this.setState({loggedIn :true})
-    }
-    if(this.state.loggedIn){
-      this.props.navigation.replace('Home')
-    }
-}*/
-
   render() {
     
 
@@ -72,10 +52,10 @@ async getStorageValue(){
             
         
 
-
+              
             {this.state.cardstate == 0 ? ( <Text style={styles.recuperarText}onPress={()=>this.props.navigation.navigate('Forgot')}  >Recuperar Password</Text> ) 
          : ( null )}
-           
+         
            
            </ImageBackground>  
            </ScrollView>
@@ -88,7 +68,7 @@ async getStorageValue(){
 const styles = StyleSheet.create({
   container:{
    flex:1,
-  
+    
    
   },
   
@@ -157,8 +137,8 @@ const styles = StyleSheet.create({
     height:70,
     width:70,
     alignSelf:'center',
-    marginBottom:'-3%',
-    marginTop:'12%'
+   
+    marginTop:'10%'
   },
  
   button: {
@@ -168,7 +148,7 @@ const styles = StyleSheet.create({
   },
   textButton:{
     color:'white',
-    fontSize:15,
+    fontSize:13,
     fontWeight:'bold'
   },
   imgBack:{

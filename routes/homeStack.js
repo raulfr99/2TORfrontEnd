@@ -54,7 +54,7 @@ const Tabs = createMaterialTopTabNavigator({
       tabBarLabel: ({tintColor}) => (
         <View style={styles.iconCOntainer}>
          
-          <Text style={{color: tintColor,fontSize:10,padding:8}}>Notificaciones</Text>
+          <Text style={{color: tintColor,fontSize:8,padding:8}}>Notificaciones</Text>
         </View>
       ),
     },
@@ -76,19 +76,23 @@ const Tabs = createMaterialTopTabNavigator({
   lazyLoad: true,
   tabBarPosition: 'top',
   swipeEnabled: true,
+  
   tabBarOptions: {
     style: {
-      height: 70,
+      height: 60,
       backgroundColor: 'white',
-      paddingBottom: 3,
-      paddingTop: 3,
+      
+      
+     
     },
     indicatorStyle: {
       backgroundColor: 'black',
-      elevation: 10,
+      
+    
     },
     activeTintColor: 'black',
-    inactiveTintColor: 'gray',
+    inactiveTintColor: 'black',
+   
   },
 },
 );
@@ -97,15 +101,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignContent: 'center',
+    
   },
   icon:{
     padding:20,
+    
    
   },
   imageIcon:{
     width:30,
     height:30,
-    alignSelf:'center'
+    alignSelf:'center',
+   
   }
 });
 //
@@ -119,12 +126,12 @@ const AppStack = createStackNavigator({
         headerStyle: {
           backgroundColor: 'white',
          
-         
-          
         },
+      
         headerTitleStyle: {
           color: 'gray',
           justifyContent: 'center',
+         
         },
         headerRight: (<Icon onPress={() => {navigation.navigate('Search')}} name="search"/>),
         headerRightContainerStyle:{padding:20},
@@ -141,6 +148,7 @@ const AppStack = createStackNavigator({
         title: 'Buscar',
         headerStyle: {
           backgroundColor: 'white',
+          
         },
         headerTitleStyle: {
           color: 'gray',

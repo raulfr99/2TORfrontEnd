@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { View, Text,Button,StyleSheet,Alert,ScrollView,TouchableOpacity,Image,FlatList} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Card, ListItem, Icon } from 'react-native-elements'
+import { Card, ListItem} from 'react-native-elements'
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 
 export default class Home extends Component {
   constructor(props) {
@@ -92,7 +95,7 @@ export default class Home extends Component {
   _renderItem = ({item,index}) =>{
     console.log(item)
     return (
-      <TouchableOpacity style={styles.cardHome}>
+      <TouchableOpacity style={styles.cardHome} onPress={()=>this.props.navigation.navigate("Ofertar", { data: item })}>
          <Image style={styles.imgAvatar} source={{uri:item.profile_photo}}/>
            <Text>{item.name_lastname}</Text>
            
@@ -105,7 +108,7 @@ export default class Home extends Component {
     return (
      
       <View style={styles.container}>
-      <ScrollView >
+    
         
       <View>
        
@@ -129,7 +132,7 @@ export default class Home extends Component {
         <Text style={styles.textTitle}>Hola 2Tor!</Text>
         <Text style={styles.textSub}>Revisa tus estadisticas</Text>
         <View style={styles.searchContainer}>
-            <Text style={styles.textSearch}>Han visitado tu perfil </Text>
+            <Text style={styles.textSearch}>Han visitado tu perfil</Text>
             <Text style={styles.textSearch}>{this.state.searchesCount} usuario(s)</Text>
         </View>
         </View>
@@ -138,12 +141,9 @@ export default class Home extends Component {
        
       </View>
       
-      <View style={styles.cardsContainer}>
-        
-         
-      </View>
+      
      
-      </ScrollView>
+    
       </View>
     );
   }
@@ -202,13 +202,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    elevation: 2,
 
   },
   textSearch:{
-    fontSize:18,
-    padding:20,
-   
+    fontSize:16,
+    padding:18,
+   alignSelf:'center'
     
 
   }

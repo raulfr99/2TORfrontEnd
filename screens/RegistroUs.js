@@ -72,63 +72,72 @@ openImg = async()=>{
     data.append("name_lastname",this.state.name)
     data.append("password",this.state.password)
     data.append("profile_photo",{uri:this.state.imageUri,name:this.state.fileName,type:this.state.type})
-   
-
-  
-  console.log(data)
-  
-  var url = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/register-alumnos/';
-
-  fetch(url, {
-    method: 'POST', 
-    body: data, 
-    headers:{
-      "Content-Type": 'multipart/form-data',
-    }
-  }).then(res => res.json().then(data => ({
-    data: data,
-    status: res.status
-  }))
-    .catch(error => console.error('Error:', error))
-    .then(response => {
-    
-      if (response.status == '201') {
-        Alert.alert(response.data.success)
-        
-      }
-      else if (response.status == '403') {
-        alert(response.data.detail)
-      }
-      else if (response.status == '400') {
-        if(response.data.email && response.data.name_lastname){
-          Alert.alert(''+response.data.email+'\n'+response.data.name_lastname)
-          this.state.state=(response.data.email+'\n'+response.data.name_lastname)
-         
-        }
-        else if(response.data.email){
-         Alert.alert(''+response.data.email)
-          this.state.state=(response.data.errors.email)
-        
-          
-        }
-        else if(response.data.name_lastname){
-          Alert.alert(''+response.data.name_lastname)
-          this.state.state=(response.data.errors.name_lastname)
-          
-        }
-        else if(response.data.password){
-          Alert.alert(''+response.data.password)
-          this.state.state=(response.data.errors.password)
-          
-        }
-       
-       
-       
-      }
-     
+    if(this.state.email && this.state.name && this.state.password !== null){
       
+      var url = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/register-alumnos/';
 
-    }));
+      fetch(url, {
+        method: 'POST', 
+        body: data, 
+        headers:{
+          'Accept': 'application/json',
+                'Content-Type': 'multipart/form-data',
+          
+        }
+      }).then(res => res.json().then(data => ({
+        data: data,
+        status: res.status
+      }))
+        .catch(error => console.error('Error:', error))
+        .then(response => {
+        
+          if (response.status == '201') {
+            Alert.alert(response.data.success)
+            this.props.navigation.navigate('Auth');
+            
+          }
+          else if (response.status == '403') {
+            alert(response.data.detail)
+          }
+          else if (response.status == '400') {
+            if(response.data.email && response.data.name_lastname){
+              Alert.alert(''+response.data.email+'\n'+response.data.name_lastname)
+              this.state.state=(response.data.email+'\n'+response.data.name_lastname)
+             
+            }
+            else if(response.data.email){
+             Alert.alert(''+response.data.email)
+              this.state.state=(response.data.errors.email)
+            
+              
+            }
+            else if(response.data.name_lastname){
+              Alert.alert(''+response.data.name_lastname)
+              this.state.state=(response.data.errors.name_lastname)
+              
+            }
+            else if(response.data.password){
+              Alert.alert(''+response.data.password)
+              this.state.state=(response.data.errors.password)
+              
+            }
+           
+           
+           
+          }
+         
+          
+    
+        }));
+      
+    }
+    else{
+      Alert.alert('No se han llenado los datos')
+    }
+
+  
+  
+ 
  
   }
 
@@ -149,19 +158,23 @@ openImg = async()=>{
           <View style={styles.containerName}>
              
              <TextInput  placeholder="Nombre y apellido" placeholderTextColor="gray"
-             style={styles.textInput}  onChangeText={(value)=>this.setState({name:value})} name="name" value={name}   /> 
+             style={styles.textInput}  onChangeText={(value)=>this.setState({name:value})} name="name" value={this.state.name}   /> 
            </View>
             
            <View style={styles.containerEmail}>
              
              <TextInput  placeholder="Email" placeholderTextColor="gray"
-             style={styles.textInput}  onChangeText={(value)=>this.setState({email:value})} name="email"  value={email}  /> 
+              keyboardType='email-address'
+              autoCapitalize = 'none'
+              autoCompleteType="email"
+              autoCorrect={false}
+             style={styles.textInput}  onChangeText={(value)=>this.setState({email:value})} name="email"  value={this.state.email}  /> 
            </View>
 
            <View style={styles.containerPassword}>
            
              <TextInput placeholder="Contrasena" placeholderTextColor="gray"
-             style={styles.textInput} onChangeText={(value)=>this.setState({password:value})} name="password" secureTextEntry={true} value={password} /> 
+             style={styles.textInput} onChangeText={(value)=>this.setState({password:value})} name="password" secureTextEntry={true} value={this.state.password} /> 
            </View>
            {/*
            <View style={styles.containerPicker}>
@@ -284,11 +297,20 @@ const styles = StyleSheet.create({
     backgroundColor:'#22d48a',
     borderRadius:5,
     alignItems:'center',
-    paddingTop:20,
-    paddingBottom:20,
+    padding:20,
+    justifyContent:'center',
     width:'350%',
+    height:'80%',
     alignSelf:'center',
-    marginTop:'15%'
+    marginTop:'15%',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 7,
   },
   loginText:{
     color:'#fff',
@@ -312,11 +334,13 @@ const styles = StyleSheet.create({
    
   },
   photoContainer:{
-    marginTop:'10%',
+    marginTop:'5%',
+    marginBottom:'5%',
     flexDirection:'row',
         height:'20%',
         width:'60%',
-        alignContent:'flex-start',
+    justifyContent: 'center',
+    alignSelf:'center'
         
   },
   icon:{

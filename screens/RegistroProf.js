@@ -48,6 +48,7 @@ openImg = async()=>{
     obj.email = this.state.email
     obj.password = this.state.password
     obj.image_profile = this.state.image_profile
+    console.log("81: "+JSON.stringify(this.state.image_profile))
     if(obj.name && obj.email && obj.password !== null){
       
       this.props.navigation.navigate('Steps',{data:obj})
@@ -97,7 +98,7 @@ openImg = async()=>{
             style={styles.buttonLogin}
             onPress={() => this.submit()}
             underlayColor='#fff'>
-            <Text style={styles.loginText}>Siguente</Text>
+            <Text style={styles.loginText}>Siguiente</Text>
           </TouchableOpacity>
         </View>
 
@@ -109,14 +110,9 @@ openImg = async()=>{
 
 const styles = StyleSheet.create({
   container: {
-    
-   
-    
-    
+    flex:1,
     width: '100%',
     height: '100%',
-  
-
   },
   
   
@@ -193,11 +189,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#22d48a',
     borderRadius: 5,
     alignItems: 'center',
-    paddingTop: 20,
-    paddingBottom: 20,
+    padding:20,
     width: '350%',
     alignSelf: 'center',
     marginTop: '15%',
+    height:'100%',
+    justifyContent:'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 7,
 
   },
   loginText: {
@@ -257,11 +262,13 @@ const styles = StyleSheet.create({
 
   },
   photoContainer:{
-    marginTop:'10%',
+    marginTop:'5%',
     flexDirection:'row',
-        height:'20%',
-        width:'60%',
-        alignContent:'flex-start',
+    height:'20%',
+    width:'60%',
+    justifyContent:'center',
+    alignSelf:'center'
+    
         
   },
   icon:{

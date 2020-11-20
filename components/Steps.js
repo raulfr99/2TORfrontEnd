@@ -40,7 +40,7 @@ class Steps extends PureComponent {
 
     _onSubmit = () => {
         
-    
+       
         const endPoint = 'http://2tor-pruebas.eba-39fqbkdu.us-west-1.elasticbeanstalk.com/auth/register-2tores/'
         
       
@@ -49,28 +49,31 @@ class Steps extends PureComponent {
         data.append("email",this.state.values.email)
         data.append("name_lastname",this.state.values.name)
         data.append("password",this.state.values.password)
-        data.append("profile_photo",this.state.values.image_profile)
-        data.append("description",this.state.values.description)
+        data.append("profile_photo",{uri:this.state.values.image_profile.imageUri,name:this.state.values.image_profile.fileName,type:this.state.values.image_profile.type})
+        data.append("description",this.state.values.descripcion)
         data.append("tags",this.state.values.tags)
-        data.append("identificacion",this.state.values.identificacion)
+        data.append("identificacion",{uri:this.state.values.identificacion.imageUri,name:this.state.values.identificacion.fileName,type:this.state.values.identificacion.type})
         data.append("cedula",this.state.values.cedula)
 
         fetch(endPoint, {
             method: 'POST', 
             body: data, 
             headers:{
-               "Content-Type": 'multipart/form-data',
+              'Accept': 'application/json',
+              'Content-Type': 'multipart/form-data',
             }
           }).then(res => res.json().then(data => ({
             data: data,
-            status: res.status
+            status: res.status,
+           
           }))
             .catch(error => console.error('Error:', error))
             .then(response => {
-            
+              console.log(response)
               if (response.status == '201') {
-                Alert.alert(response.data.success)
                 
+                
+                this.props.navigation.navigate('Auth')
               }
               else if (response.status == '403') {
                 alert(response.data.detail)
@@ -78,23 +81,23 @@ class Steps extends PureComponent {
               else if (response.status == '400') {
                 if(response.data.email && response.data.name_lastname){
                   Alert.alert(''+response.data.email+'\n'+response.data.name_lastname)
-                  this.state.state=(response.data.email+'\n'+response.data.name_lastname)
+                  
                  
                 }
                 else if(response.data.email){
                  Alert.alert(''+response.data.email)
-                  this.state.state=(response.data.errors.email)
+                
                 
                   
                 }
                 else if(response.data.name_lastname){
                   Alert.alert(''+response.data.name_lastname)
-                  this.state.state=(response.data.errors.name_lastname)
+                  
                   
                 }
                 else if(response.data.password){
                   Alert.alert(''+response.data.password)
-                  this.state.state=(response.data.errors.password)
+                  
                   
                 }
                

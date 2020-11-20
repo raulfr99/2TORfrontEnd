@@ -53,7 +53,7 @@ export default class LoginScreen extends React.Component {
    
   
     let collection = {}
-    collection.email = this.state.email,
+    collection.email = (this.state.email).toLocaleLowerCase(),
     collection.password = this.state.password,
     collection.ip = '201.165.132.61'
 
@@ -124,8 +124,9 @@ export default class LoginScreen extends React.Component {
     const styleAlertText={
       alignSelf:'center',
       fontSize:10,
-      paddingTop:'12%',
+      padding:20,
       fontWeight:'bold',
+      marginTop:'6%',
       color:'red'
     }
     return (
@@ -137,12 +138,18 @@ export default class LoginScreen extends React.Component {
         <View style={styles.containerUserName} >
 
           <TextInput placeholder="Email" placeholderTextColor="gray" 
+          keyboardType='email-address'
+          autoCapitalize = 'none'
+          autoCompleteType="email"
+          autoCorrect={false}
             style={styles.textInput} onChangeText={(value)=>this.setState({email:value})} name="email" autoFocus={this.state.emailProp} value={this.state.email} />
         </View>
 
         <View style={styles.containerPassword}>
 
-          <TextInput placeholder="Contrasena" placeholderTextColor="gray"
+          <TextInput placeholder="Contraseña" placeholderTextColor="gray"
+           autoCapitalize={false}
+           autoCorrect={false}
             style={styles.textInput} onChangeText={(value)=>this.setState({password:value})} name="password"  secureTextEntry={ true } />
         </View>
 
@@ -223,26 +230,35 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
   buttonLogin: {
+    justifyContent:'center',
     backgroundColor: '#22d48a',
     borderRadius: 5,
     alignItems: 'center',
     padding:20,
+    height:'90%',
     width: '280%',
-    alignSelf: 'center'
+    alignSelf: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 7,
   },
   loginText: {
     color: '#fff',
     textAlign: 'center',
     padding:5,
     fontWeight: 'bold',
-    fontSize: 20
+    fontSize: 18
   },
   textTitle: {
     color: 'gray',
     fontSize: 15,
     alignSelf: 'center',
-    
-    marginBottom: '5%',
+    marginTop:'5%',
     fontWeight: 'bold'
 
   },
@@ -250,10 +266,9 @@ const styles = StyleSheet.create({
     borderColor: 'red'
   },
   alertText:{
-   
     alignSelf:'center',
     fontSize:10,
-    paddingTop:'12%',
+    padding:20,
     fontWeight:'bold',
     
   }

@@ -33,20 +33,22 @@ export default class Perfil extends Component {
    <View style={styles.container}>
         
         <View style={styles.conatainerData}>
-          
-        <Text style={styles.textTitle}> Hola {this.state.nombre}:  </Text>
-     
-       
+          <View>
+        <Text style={styles.textTitle}> Hola {this.state.nombre} </Text>
+        <Text style={styles.textTitle}>Tu resumen:</Text>
         </View>
         <Avatar
-        avatarStyle={styles.avatar}
+        
         style={styles.avatar}
+        avatarStyle={styles.avatar}
         rounded
         source={this.state.imagen_perfil ? { uri: this.state.imagen_perfil } : null}
         />
+        </View>
+        
        
      
-        <Text style={styles.textTitle}>Tu resumen:</Text>
+       
         <View style={styles.perContainer}>
          <TouchableOpacity style={(this.state.buttonState)===0 ? (styles.resButtons):(styles.resButtonsB)} onPress={()=>this.setState({buttonState:0})}>
            <Text style={(this.state.buttonState)===0 ? (styles.textButton):(styles.textButtonB)}>Clases</Text>
@@ -128,19 +130,19 @@ const styles = StyleSheet.create({
     },
     conatainerData:{
       flexDirection:'row',
-      alignContent:'flex-start',
-      
       width:'100%',
-     
-    
+      height:'25%',
+      marginTop:'5%'
     },
     avatar:{
       height:60,
       width:60,
-     
       alignSelf:'flex-end',
-      marginRight:'10%'
-      
+     marginRight:'8%',
+     borderRadius:500/2,
+     marginBottom:'20%',
+     marginLeft:'5%'
+     
     },
     textTitle:{
       color:'gray',
@@ -148,21 +150,22 @@ const styles = StyleSheet.create({
       padding:15
     },
     perContainer:{
-      justifyContent:'space-between',
+      justifyContent:'space-around',
       flexDirection:'row',
       width:'90%',
-      alignSelf:'center'
+      alignSelf:'center',
     },
     textButton:{
-      fontSize:15,
+      fontSize:13,
       color:'white',
       alignSelf:'center',
-      padding:15
+      padding:10
 
     },
     resButtons:{
-      width:'33%',
-      height:'100%',
+      width:'30%',
+      height:'35%',
+      justifyContent:'center',
       backgroundColor:'#40E29F',
       borderRadius:5,
       shadowColor: "#000",
@@ -172,19 +175,19 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
-      elevation: 5,
+      elevation: 3,
     },
     textButtonB:{
-      fontSize:15,
-      
+      fontSize:13,
       alignSelf:'center',
-      padding:15,
+      padding:10,
       
 
     },
     resButtonsB:{
-      width:'33%',
-      height:'100%',
+      width:'30%',
+      height:'33%',
+      justifyContent:'center',
       backgroundColor:'white',
       borderRadius:5,
       shadowColor: "#000",
@@ -194,7 +197,7 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
-      elevation: 5,
+      elevation: 3,
     },
     cardClasses:{
       marginTop:'5%',
@@ -206,11 +209,11 @@ const styles = StyleSheet.create({
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
-        height: 2,
+        height: 1,
       },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
-      elevation: 5,
+      shadowOpacity: 0.15,
+      shadowRadius: 3.2,
+      elevation: 2,
     },
     metodoIcon:{
       width:50,

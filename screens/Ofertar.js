@@ -95,12 +95,14 @@ export default class Ofertar extends Component {
     const { modalVisible } = this.state;
 
     return (
-      <View style={styles.container}>
+      <View style={styles.container} >
           <View style={styles.titleContainer}>
               <Text style={styles.textTitle}>{state.params.data.name_lastname} </Text>
               <Image
               style={styles.imgAvatar}
-              source={{uri: state.params.data.profile_photo}}/>
+              source={{uri: state.params.data.profile_photo}}
+                
+                />
           </View>
         <Text style={styles.textTag}>{state.params.data.tags} </Text>
         <View style={styles.titleContainer}>
@@ -117,7 +119,8 @@ export default class Ofertar extends Component {
                 name='today'
                 color='#40E29F'
                 size={35}
-                style={{marginRight:'8%'}} />
+                style={{marginRight:'8%'}}
+                 />
           </View>
           <View style={styles.tagsContainer}>
             <Text style={styles.textTags} >CALCULO </Text>
@@ -126,14 +129,14 @@ export default class Ofertar extends Component {
           </View>
           <Text style={styles.textAc}>Acerca:</Text>
           <View style={styles.desContainer}>
-          <Text style={styles.textDes}>{state.params.data.description}</Text>
+    <Text style={styles.textDes}> {state.params.data.description}</Text>
          </View>
           <TouchableOpacity style={styles.button}onPress={() => {
             this.setModalVisible(true);
           }} ><Text style={styles.textButton}>Agendar</Text></TouchableOpacity>
          
           <Modal
-          animationType="slide"
+          animationType="fade"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
@@ -182,24 +185,25 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignContent:'flex-start',
         width:'100%',
-        justifyContent:'space-around',
+        justifyContent:'space-between',
         marginTop:'8%'
     },
     textPromedio:{
       fontSize:18,
       color:'gray',
       left:0,
-      marginLeft:'-13%',
+      marginLeft:'-10%',
       alignSelf:'center'
     },
     textCantidad:{
       fontSize:13,
       fontWeight:'bold',
-      alignSelf:'center'
+      alignSelf:'center',
+      marginRight:'5%'
     },
     imgAvatar:{
-        width: 60,
-        height: 60,
+        width: 70,
+        height: 70,
         borderRadius: 150 / 2,
         overflow: "hidden",
         
@@ -211,31 +215,32 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
+        elevation: 6,
     },
     textTitle:{
         color:'black',
         fontSize:25,
         
-        marginLeft:'8%'
+        marginLeft:'5%'
     },
     textTag:{
         color:'gray',
         fontSize:25,
-        marginLeft:'8%'
+        marginLeft:'5%'
     },
     tagsContainer:{
         flexDirection:'row',
-        alignContent:'space-between',
-        width:'70%',
+        width:'100%',
         alignSelf:'center',
-        justifyContent:'space-between',
-        marginTop:'5%'
+        justifyContent:'space-around',
+        marginTop:'5%',
+       
+        
     },
     textTags:{
-        fontSize:15,
+        fontSize:13,
         borderRadius:5,
-        fontWeight:'normal',
+        padding:15,
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -243,22 +248,22 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
-        padding:5,
+        elevation: 2,
+        
         backgroundColor:'white'
     },
     textAc:{
         color:'black',
         fontSize:25,
-        marginTop:'8%',
+        marginTop:'5%',
         marginLeft:'8%'
     },
     textDes:{
-        fontSize:12,
+        fontSize:13,
         alignSelf:'auto',
         borderRadius:5,
         marginTop:'3%',
-        padding:5,
+        padding:15,
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -266,17 +271,17 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
+        elevation:2,
         backgroundColor:'white'
         
     },
     button:{
-        width:'50%',
+        width:'70%',
         height:'8%',
         backgroundColor:'#40E29F',
-        borderRadius:15,
+        borderRadius:5,
         alignSelf:'center',
-        marginTop:'5%',
+        marginTop:'1%',
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -284,7 +289,7 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
+        elevation: 3,
     },
     textButton:{
         alignSelf:'center',
@@ -301,7 +306,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(100,100,100, 0.8)',
+        padding: 20,
       },
       modalView: {
         margin: 20,

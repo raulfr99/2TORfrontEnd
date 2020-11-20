@@ -74,26 +74,27 @@ export default class StepsScreen extends Component {
            <Steps.Step>
                {({onChangeValue,values})=>(
                 <View style={styles.container}>
-                  <Text style={styles.textTitle}>hola{state.params.data.name}</Text>
+                  <Text style={styles.textTitle}>Hola {state.params.data.name}</Text>
                   <Text style={styles.textTitle}>Descripcion</Text>
                   <TextInput style={styles.inputBox} 
+                   
+                   autoCapitalize = 'none'
+                   autoCorrect={false}
                   placeholder="Descripcion. Un poco sobre de ti..."
-                  onChangeText={text=>onChangeValue('description',text)} 
+                  onChangeText={text=>onChangeValue('descripcion',text)} 
                   value={values.description}
                   >
                   </TextInput>
                   <Text style={styles.textTitle}>Tags</Text>
                   <TextInput style={styles.inputBox} 
+                  autoCapitalize = 'none'
+                  autoCorrect={false}
                   placeholder="Temas, materias, examenes. Que vaya a ensenar."
                   onChangeText={text=>onChangeValue('tags',text)} 
                   value={values.tags}
                   >
                   </TextInput>
-               <TextInput 
-               onChangeText={text=>onChangeValue('username',text)} 
-               placeholder="Usuario: "
-               value={values.descripcion}
-               />
+
                </View>
                )}
            
@@ -118,6 +119,8 @@ export default class StepsScreen extends Component {
               <TextInput 
               style={styles.cedulaInput}
             onChangeText={text=>{onChangeValue('cedula',text);onChangeValue('identificacion',this.state.image_identificacion)}} 
+            autoCapitalize = 'none'
+                   autoCorrect={false}
             placeholder="Introduce tu numero unico de cedula: "
             value={values.cedula}
             />
@@ -139,6 +142,8 @@ export default class StepsScreen extends Component {
 const styles = StyleSheet.create({
     root:{
         flex:1,
+        left:0,
+        bottom:0,
         backgroundColor:'white',
         position: 'absolute',
         alignSelf:'center',
