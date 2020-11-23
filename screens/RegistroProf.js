@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Text, TextInput, View, ImageBackground, StyleSheet, Picker, TouchableOpacity ,Alert} from 'react-native';
 import { Icon, Button, Avatar } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker'
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const imgFooter = require('../assets/reg.jpg');
 const imgCamera = require('../assets/camara.png')
@@ -19,8 +20,23 @@ export default class RegisterProfScreen extends React.Component {
         imageUri:null,
         fileName:null,
         type:null,
+        alertMsg:'',
+        showAlert:false
     }
 }
+
+showAlert = () => {
+  this.setState({
+    showAlert: true
+  });
+};
+
+
+hideAlert = () => {
+  this.setState({
+    showAlert: false
+  });
+};
   
 openImg = async()=>{
   let permission = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -50,12 +66,13 @@ openImg = async()=>{
     obj.image_profile = this.state.image_profile
     console.log("81: "+JSON.stringify(this.state.image_profile))
     if(obj.name && obj.email && obj.password !== null){
-      
+      this.hideAlert()
       this.props.navigation.navigate('Steps',{data:obj})
       
     }
     else{
-      Alert.alert('No se han llenado los datos')
+      this.setState({alertMsg:'No se han llenado los datos!'})
+      this.showAlert()
     }
    
   }
@@ -102,7 +119,22 @@ openImg = async()=>{
           </TouchableOpacity>
         </View>
 
-
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={false}
+          title="Alerta!"
+          message={this.state.alertMsg}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          
+          showConfirmButton={true}
+         
+          confirmText="Aceptar"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
       </View>
     );
   }

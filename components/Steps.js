@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {View, Text,StyleSheet,Button,Alert} from 'react-native';
 import Step from './Step'
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 
 class Steps extends PureComponent {
@@ -9,7 +10,9 @@ class Steps extends PureComponent {
         index:0,
         values:{
             ...this.props.initialValues
-        }
+        },
+        showAlert:'false',
+        alertMsg:''
      }
      _nextStep = () =>{
          if(this.state.index !== this.props.children.length - 1 ){
@@ -38,6 +41,19 @@ class Steps extends PureComponent {
         }))
     }
 
+    showAlert = () => {
+      this.setState({
+        showAlert: true
+      });
+    };
+    
+    
+    hideAlert = () => {
+      this.setState({
+        showAlert: false
+      });
+    };
+      
     _onSubmit = () => {
         
        
@@ -71,7 +87,8 @@ class Steps extends PureComponent {
             .then(response => {
               console.log(response)
               if (response.status == '201') {
-                
+                this.setState({alertMsg:response.data.success})
+                this.showAlert()
                 
                 this.props.navigation.navigate('Auth')
               }
@@ -127,6 +144,22 @@ class Steps extends PureComponent {
                     }
                     return null;
                 })}
+                <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={false}
+          title="Alerta!"
+          message={this.state.alertMsg}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          
+          showConfirmButton={true}
+         
+          confirmText="Aceptar"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
             </View>
         );
     }

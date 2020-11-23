@@ -134,7 +134,7 @@ const AppStack = createStackNavigator({
          
         },
         headerRight: (<Icon onPress={() => {navigation.navigate('Search')}} name="search"/>),
-        headerRightContainerStyle:{padding:20},
+        headerRightContainerStyle:{marginRight:15},
         headerTitle:(<Image source={require('../assets/logo.png')} style={styles.imageIcon}/>),
         headerTitleContainerStyle: {  right:0 }
        

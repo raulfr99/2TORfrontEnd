@@ -3,6 +3,7 @@ import { Text, TextInput, View, Image, ImageBackground, StyleSheet, TouchableOpa
 import { Icon, Button, Card } from 'react-native-elements'
 import { set } from 'react-native-reanimated';
 import Test from './Test';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -21,21 +22,19 @@ export default class LoginScreen extends React.Component {
       state:'',
       showAlertLog:false,
       alertColor:'',
-      emailProp:false
+      emailProp:false,
+      alertMsg:'',
+      showLoading:false
     }
   }
   
- 
+  
   showAlert = () => {
     this.setState({
       showAlert: true
     });
   };
-  showProp = () => {
-    this.setState({
-      emailProp: true
-    });
-  };
+ 
   
   hideAlert = () => {
     this.setState({
@@ -50,8 +49,8 @@ export default class LoginScreen extends React.Component {
   
   
   submit() {
+    
    
-  
     let collection = {}
     collection.email = (this.state.email).toLocaleLowerCase(),
     collection.password = this.state.password,
@@ -76,40 +75,42 @@ export default class LoginScreen extends React.Component {
         .then(response => {
           console.log(response.status, response.data)
           if (response.status == '200') {
+           
             AsyncStorage.setItem('token',response.data.tokens.access)
             AsyncStorage.setItem('nombre',response.data.name_lastname)
             AsyncStorage.setItem('imagen_perfil',response.data.profile_photo)
             AsyncStorage.setItem('id',response.data.id)
             AsyncStorage.setItem('user',JSON.stringify(response.data.user))
-            //localStorage.setItem("token", response.data.tokens)
             
-           this.state.showAlertLog = true
+            this.state.showAlertLog = true
             this.props.navigation.navigate('Home')
             
           }
           else if (response.status == '403') {
+          
             this.state.state=response.data.detail
-            this.state.alertColor="red"
-          this.showAlert()
-          this.showProp()
-            
-          }
-          else if (response.status == '401') {
-            this.state.state=response.data.detail
-           this.showAlert()
-           this.showProp()
+            this.setState({alertMsg:response.data.detail})
+            //this.state.alertColor="red"
+            this.showAlert()
+         // this.showProp()
             
           }
           else if (response.status == '400' && response.data.password) {
-            this.state.state=response.data.password
-           this.showAlert()
-           this.showProp()
+          
+            this.setState({alertMsg:response.data.password})
+            this.showAlert()
+          }
+          else if (response.status == '400' && response.data.password) {
+           
+            this.setState({alertMsg:response.data.password})
+            this.showAlert()
+         
           }
           else if (response.status == '400' && response.data.email) {
-            this.state.state=response.data.email
-            
-           this.showAlert()
-           this.showProp()
+           
+            this.setState({alertMsg:response.data.email})
+            this.showAlert()
+         
           }
 
         }));
@@ -118,8 +119,7 @@ export default class LoginScreen extends React.Component {
   }
 
   render() {
-    const { email, password } = this.state;
-    const {showAlert,showAlertLog} = this.state;
+  
     const text =this.state.state
     const styleAlertText={
       alignSelf:'center',
@@ -163,8 +163,26 @@ export default class LoginScreen extends React.Component {
         </View>
       
         
-          <Text style={styles.alertText} disabled={this.state.showAlert}  style={styleAlertText}>{text}</Text>
+          <Text style={styles.alertText} disabled={this.state.showAlertLog}  style={styleAlertText}>{text}</Text>
+
+          <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={false}
+          title="Alerta!"
+          message={this.state.alertMsg}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          
+          showConfirmButton={true}
          
+          confirmText="Aceptar"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
+        
+        
           </ScrollView>
           
      
@@ -235,7 +253,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     alignItems: 'center',
     padding:20,
-    height:'90%',
+    height:'100%',
     width: '280%',
     alignSelf: 'center',
     shadowColor: "#000",
@@ -250,7 +268,6 @@ const styles = StyleSheet.create({
   loginText: {
     color: '#fff',
     textAlign: 'center',
-    padding:5,
     fontWeight: 'bold',
     fontSize: 18
   },

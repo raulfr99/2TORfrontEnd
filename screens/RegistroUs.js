@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text,TextInput,View, ImageBackground,StyleSheet,TouchableOpacity, Picker,Alert } from 'react-native';
 import { Icon,Button,Avatar } from 'react-native-elements'
 import * as ImagePicker from 'expo-image-picker'
-
+import AwesomeAlert from 'react-native-awesome-alerts';
 const imgFooter = require('../assets/reg.jpg');
 const imgCamera = require('../assets/camara.png')
 
@@ -26,11 +26,24 @@ export default class RegisterUsScreen extends React.Component {
         type:null,
         showAlert: false,
         state:'',
+        alertMsg:''
        
 
         
     }
 }
+showAlert = () => {
+  this.setState({
+    showAlert: true
+  });
+};
+
+
+hideAlert = () => {
+  this.setState({
+    showAlert: false
+  });
+};
   
 openImg = async()=>{
   let permission = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -92,8 +105,9 @@ openImg = async()=>{
         .then(response => {
         
           if (response.status == '201') {
-            Alert.alert(response.data.success)
-            this.props.navigation.navigate('Auth');
+            this.setState({alertMsg:response.data.success})
+            this.showAlert()
+            
             
           }
           else if (response.status == '403') {
@@ -132,7 +146,8 @@ openImg = async()=>{
       
     }
     else{
-      Alert.alert('No se han llenado los datos')
+      this.setState({alertMsg:'No se han llenado los datos!'})
+            this.showAlert()
     }
 
   
@@ -144,7 +159,7 @@ openImg = async()=>{
   render() {
     
     const {name,email, password} = this.state;
-    const {showAlert,emailProp} = this.state;
+    
     return (
           <View style={styles.container}>
           
@@ -194,6 +209,22 @@ openImg = async()=>{
                      underlayColor='#fff'>
                      <Text style={styles.loginText}>Entra</Text>
            </TouchableOpacity>
+           <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={false}
+          title="Alerta!"
+          message={this.state.alertMsg}
+          closeOnTouchOutside={true}
+          closeOnHardwareBackPress={false}
+          
+          showConfirmButton={true}
+         
+          confirmText="Aceptar"
+          confirmButtonColor="#DD6B55"
+          onConfirmPressed={() => {
+            this.hideAlert();
+          }}
+        />
            </View>
           
             

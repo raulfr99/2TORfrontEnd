@@ -104,7 +104,7 @@ sendMessage(data){
   collection.id_2tor = data.data.id_2tor,
   collection.id_alumno =  data.data.id_alumno,
   collection.message = this.state.textMsg
-
+  this.setState({textMsg:''})
   fetch(endPoint, {
     method: 'POST', // or 'PUT'
     body: JSON.stringify(collection), // data can be `string` or {object}!

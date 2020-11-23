@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     
+    
   },
   imgAvatar: {
     width: 30,

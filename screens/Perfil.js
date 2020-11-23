@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text,Button,StyleSheet,Alert,ScrollView,TouchableOpacity,Image} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Avatar} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 export default class Perfil extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ export default class Perfil extends Component {
   }
   test =() => {
     AsyncStorage.removeItem('token')
+    AsyncStorage.removeItem('id')
     AsyncStorage.removeItem('user')
     this.props.navigation.navigate('Auth');
     
@@ -33,17 +35,23 @@ export default class Perfil extends Component {
    <View style={styles.container}>
         
         <View style={styles.conatainerData}>
-          <View>
+          <View style={{width:'100%'}}>
         <Text style={styles.textTitle}> Hola {this.state.nombre} </Text>
-        <Text style={styles.textTitle}>Tu resumen:</Text>
+
+     
         </View>
+        <View style={{flexDirection:'row',width:'100%'}}>
+        <Text style={styles.textTitle}>Tu resumen:</Text>
+        <View style={{marginLeft:'25%'}}>
         <Avatar
-        
         style={styles.avatar}
         avatarStyle={styles.avatar}
         rounded
         source={this.state.imagen_perfil ? { uri: this.state.imagen_perfil } : null}
         />
+        </View>
+        
+        </View>
         </View>
         
        
@@ -68,19 +76,53 @@ export default class Perfil extends Component {
               <View>
               <TouchableOpacity style={styles.cardClasses}>
               <Image source={require('../assets/logo.png')} style={styles.metodoIcon}/>
+              <View>  
               <Text>Raul Flores</Text>
-              <Text>Descripcion</Text>
+              <Text style={{fontSize:10}}>Descripcion</Text>
+              </View>
+              <View style={{flexDirection:'row',justifyContent:'center'}}>
+              <Icon name="star" size={15} />
+              <Text>4.3</Text>
+              </View>
+             
               </TouchableOpacity>
               <TouchableOpacity style={styles.cardClasses}>
               <Image source={require('../assets/logo.png')} style={styles.metodoIcon}/>
+              <View>  
               <Text>Raul Flores</Text>
-              <Text>Descripcion</Text>
+              <Text style={{fontSize:10}}>Descripcion</Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+              <Icon name="star" size={15}  />
+              <Text>4.3</Text>
+              </View>
+             
               </TouchableOpacity>
               <TouchableOpacity style={styles.cardClasses}>
               <Image source={require('../assets/logo.png')} style={styles.metodoIcon}/>
+              <View>  
               <Text>Raul Flores</Text>
-              <Text>Descripcion</Text>
+              <Text style={{fontSize:10}}>Descripcion</Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+              <Icon name="star" size={15}  />
+              <Text>4.3</Text>
+              </View>
+             
               </TouchableOpacity>
+              <TouchableOpacity style={styles.cardClasses}>
+              <Image source={require('../assets/logo.png')} style={styles.metodoIcon}/>
+              <View>  
+              <Text>Raul Flores</Text>
+              <Text style={{fontSize:10}}>Descripcion</Text>
+              </View>
+              <View style={{flexDirection:'row'}}>
+              <Icon name="star" size={15}  />
+              <Text>4.3</Text>
+              </View>
+             
+              </TouchableOpacity>
+             
               </View>
 
             ) : this.state.buttonState==1 ? (
@@ -129,7 +171,6 @@ const styles = StyleSheet.create({
      
     },
     conatainerData:{
-      flexDirection:'row',
       width:'100%',
       height:'25%',
       marginTop:'5%'
@@ -138,10 +179,11 @@ const styles = StyleSheet.create({
       height:60,
       width:60,
       alignSelf:'flex-end',
-     marginRight:'8%',
+    
+     marginBottom:'10%',
      borderRadius:500/2,
-     marginBottom:'20%',
-     marginLeft:'5%'
+   
+     
      
     },
     textTitle:{
@@ -200,9 +242,10 @@ const styles = StyleSheet.create({
       elevation: 3,
     },
     cardClasses:{
+      flexDirection:'row',
       marginTop:'5%',
       width:'80%',
-      justifyContent: 'center',
+      justifyContent: 'space-around',
       borderRadius:10,
       alignSelf:'center',
       backgroundColor:'white',
@@ -213,7 +256,7 @@ const styles = StyleSheet.create({
       },
       shadowOpacity: 0.15,
       shadowRadius: 3.2,
-      elevation: 2,
+      elevation: 1,
     },
     metodoIcon:{
       width:50,

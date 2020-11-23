@@ -4,6 +4,7 @@ import { Icon, Button } from 'react-native-elements'
 import RegisterUsScreen from '../screens/RegistroUs'
 import RegisterProfScreen from '../screens/RegistroProf'
 const imgFooter = require('../assets/reg.jpg');
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 export default class RegisterScreen extends React.Component {
   constructor(props) {
