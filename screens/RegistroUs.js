@@ -115,24 +115,25 @@ openImg = async()=>{
           }
           else if (response.status == '400') {
             if(response.data.email && response.data.name_lastname){
-              Alert.alert(''+response.data.email+'\n'+response.data.name_lastname)
-              this.state.state=(response.data.email+'\n'+response.data.name_lastname)
+              this.setState({alertMsg:response.data.email})
+            this.showAlert()
+            
              
             }
             else if(response.data.email){
-             Alert.alert(''+response.data.email)
-              this.state.state=(response.data.errors.email)
+              this.setState({alertMsg:response.data.email})
+              this.showAlert()
             
               
             }
             else if(response.data.name_lastname){
-              Alert.alert(''+response.data.name_lastname)
-              this.state.state=(response.data.errors.name_lastname)
+              this.setState({alertMsg:response.data.name_lastname})
+            this.showAlert()
               
             }
             else if(response.data.password){
-              Alert.alert(''+response.data.password)
-              this.state.state=(response.data.errors.password)
+              this.setState({alertMsg:response.data.password})
+              this.showAlert()
               
             }
            
