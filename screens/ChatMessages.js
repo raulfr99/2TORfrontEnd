@@ -20,9 +20,10 @@ export default class ChatMessages extends Component {
   async componentDidMount(){
     
    await this.getProfileData()
+   
    this.getMessages(this.props.navigation.state.params)
    this.getMessagesExtra(this.props.navigation.state.params)
-  
+   
 
    this.componentDidMount()
     

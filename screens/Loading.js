@@ -20,7 +20,7 @@ export default class Loading extends Component {
   }
   async componentDidMount(){
     var d = new Date();
-    this.setState({day:d.getDay()})
+    this.setState({day:d.getDate()})
     this.setState({year:d.getFullYear()})
     var month = new Array();
     month[0] = "Enero";

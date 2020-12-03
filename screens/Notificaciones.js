@@ -12,6 +12,7 @@ export default class Notificaciones extends Component {
   }
   async componentDidMount() {
     this.getUserData();
+    
     var state = (await AsyncStorage.getItem("user")) == "false";
     if (state) {
       this.getNotificationsAlumno(await AsyncStorage.getItem("id"));
